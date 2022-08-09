@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.DatosUsuarioDTO;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
-import mx.gob.imss.mssintrans.ccom.traslados.dto.Siniestro;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Traslados;
 import mx.gob.imss.mssintrans.ccom.traslados.service.TrasladoService;
 
@@ -45,7 +44,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 	}
 
 	@Override
-	public <T> Respuesta actualizarRegistro(Siniestro siniestro) {
+	public <T> Respuesta actualizarRegistro(Traslados siniestro) {
 		// TODO Auto-generated method stub
 		return null;
 	}

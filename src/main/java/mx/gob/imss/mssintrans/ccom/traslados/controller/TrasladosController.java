@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
-import mx.gob.imss.mssintrans.ccom.traslados.service.impl.SiniestroServiceImpl;
 import mx.gob.imss.mssintrans.ccom.traslados.service.impl.TrasladoServiceImpl;
 
 @AllArgsConstructor
