@@ -118,7 +118,7 @@ public class TrasladoEntity {
 	private String numFolioAceptacion;
 	
 	@Column(name = "NUM_MATICULA_AUTORIZA", unique = false, nullable = true)
-	private String Integer;
+	private String numMaticulaAutoriza;
 	
 	@Column(name = "ID_ESTATUS_SOLICITUD", unique = false, nullable = true)
 	private Integer idEstatusSolicitud;
