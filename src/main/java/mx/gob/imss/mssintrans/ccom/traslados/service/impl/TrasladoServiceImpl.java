@@ -100,11 +100,13 @@ public class TrasladoServiceImpl implements TrasladoService {
 	public <T> Respuesta eliminarTraslado(Integer id) {
 		Respuesta<T>respuesta= new Respuesta<>();
 		TrasladoEntity trasladoEntity=null;
+		TrasladoEntity elimandoEntity=null;
+		
 		try {
 			trasladoEntity=trasladoRepository.findByIdSolicitudAndIndActivoEquals(id, 1).orElseThrow(()-> new Exception("No se encontro el traslado"));
 			trasladoEntity.setIndActivo(0);
 			trasladoEntity.setFecBaja(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
-			trasladoRepository.saveAndFlush(trasladoEntity);
+			elimandoEntity=trasladoRepository.save(trasladoEntity);
 			
 		} catch (Exception e) {
 			log.debug("error {}", e.getMessage());
@@ -113,11 +115,11 @@ public class TrasladoServiceImpl implements TrasladoService {
 			respuesta.setMensaje(e.getMessage());
 			return respuesta;
 		}
-		Traslado trasladoResponse=TrasladosMapper.INSTANCE.entityAJson(trasladoEntity);
+	//	Traslado trasladoResponse=TrasladosMapper.INSTANCE.entityAJson(elimandoEntity);
 		respuesta.setCodigo(HttpStatus.OK.value());
 		respuesta.setError(false);
 		respuesta.setMensaje("Exito");
-		respuesta.setDatos((T)trasladoResponse);
+		//respuesta.setDatos((T)trasladoResponse);
 		
 		return respuesta;
 	}
@@ -125,11 +127,17 @@ public class TrasladoServiceImpl implements TrasladoService {
 	@Override
 	public <T> Respuesta actualizarRegistro(Traslado traslado) {
 		Respuesta<T>respuesta= new Respuesta<>();
-		TrasladoEntity nuevoTraslado=null;
+		TrasladoEntity busquedaTraslado=null;
+		TrasladoEntity actualizadoTraslado=null;
 		
 		try {
-			TrasladoEntity trasladoEntity= TrasladosMapper.INSTANCE.JsonAEntity(traslado);
-			nuevoTraslado=trasladoRepository.saveAndFlush(trasladoEntity);
+			busquedaTraslado=trasladoRepository.findByIdSolicitudAndIndActivoEquals(traslado.getIdSolicitud(), 1).orElseThrow(()-> new Exception("No se encontro el traslado"));
+			
+		//	TrasladoEntity trasladoEntity= TrasladosMapper.INSTANCE.JsonAEntity(traslado);
+		//	trasladoEntity.setIndOxigeno();
+			busquedaTraslado.setIndOxigeno(traslado.getIndOxigeno());
+			busquedaTraslado.setFecActualizacion(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
+			actualizadoTraslado=trasladoRepository.save(busquedaTraslado);
 		} catch (Exception e) {
 			log.debug("error {}", e.getMessage());
 			respuesta.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -138,7 +146,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 			return respuesta;
 		}
 		
-		Traslado trasladoResponse=TrasladosMapper.INSTANCE.entityAJson(nuevoTraslado);
+		Traslado trasladoResponse=TrasladosMapper.INSTANCE.entityAJson(actualizadoTraslado);
 		respuesta.setCodigo(HttpStatus.OK.value());
 		respuesta.setError(false);
 		respuesta.setMensaje("Exito");
