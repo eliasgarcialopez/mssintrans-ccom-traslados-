@@ -9,5 +9,6 @@ public interface CenDocService {
 	Respuesta<CenDocResponse> crear(CenDocEntity cenDocEntity);
 	Respuesta<CenDocResponse> actualizar(CenDocEntity cenDocEntity);
 	Respuesta<CenDocResponse> consultaPorId(Integer idCenso);
+	Respuesta<CenDocResponse> eliminar(Integer idCenso);
 
 }

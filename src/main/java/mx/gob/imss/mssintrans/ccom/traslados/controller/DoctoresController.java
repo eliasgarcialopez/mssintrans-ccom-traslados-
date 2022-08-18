@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import mx.gob.imss.mssintrans.ccom.traslados.dto.DatosUsuarioDTO;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.model.CenDocEntity;
 import mx.gob.imss.mssintrans.ccom.traslados.service.CenDocService;
+import mx.gob.imss.mssintrans.ccom.traslados.service.SiapService;
 
 @Slf4j
 @RestController
@@ -29,6 +31,9 @@ public class DoctoresController {
 	
 	@Autowired
 	private CenDocService cenDocService;
+	
+	@Autowired
+	private SiapService siapService;
 	
 	@PostMapping
 	public ResponseEntity<Respuesta<?>> crear(
@@ -64,7 +69,17 @@ public class DoctoresController {
 		log.info(cenDocEntity.toString());
 		
 		response = cenDocService.crear(cenDocEntity);
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		
+		ResponseEntity<Respuesta<?>> responseEntity;
+		
+		
+		if(response.isError()) {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}else {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		
+		return responseEntity;
 	}
 	
 	
@@ -104,7 +119,17 @@ public class DoctoresController {
 		log.info(cenDocEntity.toString());
 		
 		response = cenDocService.actualizar(cenDocEntity);
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		
+		ResponseEntity<?> responseEntity;
+		
+		
+		if(response.isError()) {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}else {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		
+		return responseEntity;
 		
 	}
 	
@@ -128,7 +153,16 @@ public class DoctoresController {
 		 */
 		
 		response = cenDocService.consultaPorId(idCenso);
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		
+		ResponseEntity<?> responseEntity;
+		
+		if(response.isError()) {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		}else {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		
+		return responseEntity;
 	}
 	
 	public Respuesta<?> denegado( String usuario ){
@@ -139,6 +173,60 @@ public class DoctoresController {
 		response.setMensaje(usuario);
 		
 		return response;
+	}
+	
+	@GetMapping("/matricula/{matricula}")
+	public ResponseEntity<?> obtenerMatricula(@PathVariable String matricula) {
+		
+		Respuesta<?> response;
+		
+		/**
+		 * Validacion de seguridad del usuario
+		 */
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if (usuario.equals("denegado")) {
+			response = denegado(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		
+		/**
+		 * Llamado al funcionamiento del servicio
+		 */
+		
+		response = siapService.buscarPorMat(matricula);
+		ResponseEntity<?> responseEntity;
+		
+		if(response.isError()) {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		}else {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		
+		return responseEntity;
+	}
+	
+	@DeleteMapping("/{idCenso}")
+	public ResponseEntity<?> eliminar(@PathVariable Integer idCenso) {
+		
+		Respuesta<?> response;
+		
+		/**
+		 * Validacion de seguridad del usuario
+		 */
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if (usuario.equals("denegado")) {
+			response = denegado(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		
+		/**
+		 * Llamado al funcionamiento del servicio
+		 */
+		
+		response = cenDocService.eliminar(idCenso);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 }

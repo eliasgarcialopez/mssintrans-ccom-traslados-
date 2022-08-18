@@ -20,6 +20,9 @@ public class CenDocResponse {
 	private Integer cveMatricula;
 	
 	@JsonProperty
+	private String nombre;
+	
+	@JsonProperty
 	private Integer idUnidad;
 	
 	@JsonProperty 

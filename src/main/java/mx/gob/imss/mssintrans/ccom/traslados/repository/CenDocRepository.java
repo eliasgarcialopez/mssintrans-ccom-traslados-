@@ -43,4 +43,29 @@ public interface CenDocRepository extends JpaRepository<CenDocEntity, Integer> {
 			nativeQuery = true )
 	CenDocEntity consultaPorId (Integer idCenso);
 	
+	@Query(value = ""
+			+ "SELECT	* "
+			+ "FROM		SINTRANST_CENSO_DOCTORES SCC "
+			+ "WHERE    SCC.CVE_MATRICULA = ? "
+			+ "AND   	SCC.IND_ACTIVO 	= '1' "
+			+ "",
+			countQuery = ""
+					+ "SELECT	COUNT(*)"
+					+ "FROM		SINTRANST_CENSO_DOCTORES SCC "
+					+ "WHERE    SCC.CVE_MATRICULA = ? "
+					+ "AND   	SCC.IND_ACTIVO 	= '1' "
+					+ "",
+			nativeQuery = true )
+	CenDocEntity consultaPorMat (Integer cveMatricula);
+	
+	@Modifying(flushAutomatically = true)
+	@Query(value = ""
+			+ "UPDATE SINTRANST_CENSO_DOCTORES "
+			+ "SET	"
+			+ "FEC_BAJA	= CURRENT_DATE(), "
+			+ "IND_ACTIVO = 0 "
+			+ "WHERE IND_ACTIVO = '1' "
+			+ "AND ID_CENSO = ? "
+			,nativeQuery = true )
+	void eliminar ( int id );
 }

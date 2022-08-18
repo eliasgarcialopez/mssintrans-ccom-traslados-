@@ -43,6 +43,7 @@ logging:
     
 endpoints:
   carga-archivos-endpoint: "http://localhost:8086/mssintrans-carga-archivos"
+  siap: "http://10.100.6.60/ServiciosWebSIT/wsConsultaSIT.asmx?WSDL"
   
 archivos:
   agrupador-siniestro: "SINIESTRO"
