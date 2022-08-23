@@ -38,6 +38,9 @@ public class TrasladoEntity {
 	
 	@Column(name = "DES_NSS_PACIENTE", unique = false, nullable = true)
 	private String desnsPaciente;
+
+	@Column(name = "DES_NOM_PACIENTE", unique = false, nullable = true)
+	private String desNomPaciente;
 	
 	@Column(name = "DES_DIAGNOSTICO", unique = false, nullable = true)
 	private String desDiagnostico;
@@ -51,11 +54,11 @@ public class TrasladoEntity {
 	@Column(name = "IND_CAPSULA", unique = false, nullable = true)
 	private Integer indCapsula;
 	
-	@Column(name = "NUM_TIPO_SERVICIO", unique = false, nullable = true)
-	private Integer numTipoServicio;
+	@Column(name = "DES_TIPO_SERVICIO", unique = false, nullable = true)
+	private Integer desTipoServicio;
 	
-	@Column(name = "NUM_POSTURA_PACIENTE", unique = false, nullable = true)
-	private Integer numPosturaPaciente;
+	@Column(name = "DES_POSTURA_PACIENTE", unique = false, nullable = true)
+	private Integer desPosturaPaciente;
 	
 	@Column(name = "FEC_TRANSMISION", unique = false, nullable = true)
 	private String fecTransmision;
@@ -66,8 +69,8 @@ public class TrasladoEntity {
 	@Column(name = "CVE_ORIGEN", unique = false, nullable = true)
 	private Integer cveOrigen;
 	
-	@Column(name = "CVE_AREA_ORIGEN", unique = false, nullable = true)
-	private Integer cveAreaOrigen;
+	@Column(name = "DES_AREA_ORIGEN", unique = false, nullable = true)
+	private String desAreaOrigen;
 	
 	@Column(name = "NUM_CAMA_ORIGEN", unique = false, nullable = true)
 	private Integer numCamaOrigen;
@@ -75,8 +78,8 @@ public class TrasladoEntity {
 	@Column(name = "CVE_DESTINO", unique = false, nullable = true)
 	private Integer cveDestino;
 	
-	@Column(name = "CVE_AREA_DESTINO", unique = false, nullable = true)
-	private Integer cveAreaDestino;
+	@Column(name = "DES_AREA_DESTINO", unique = false, nullable = true)
+	private String desAreaDestino;
 	
 	@Column(name = "NUM_CAMA_DESTINO", unique = false, nullable = true)
 	private Integer numCamaDestino;
@@ -111,17 +114,17 @@ public class TrasladoEntity {
 	@Column(name = "TEL_FAMILIAR", unique = false, nullable = true)
 	private Integer telFamiliar;
 	
-	@Column(name = "CVE_MATRICULA_RECIBE", unique = false, nullable = true)
-	private String cveMatriculaRecibe;
-	
+	@Column(name = "NUM_MATRICULA_DOCTOR_RECIBE", unique = false, nullable = true)
+	private String numMatriculaRecibe;
+
 	@Column(name = "NUM_FOLIO_ACEPTACION", unique = false, nullable = true)
 	private String numFolioAceptacion;
 	
-	@Column(name = "NUM_MATICULA_AUTORIZA", unique = false, nullable = true)
-	private String numMaticulaAutoriza;
+	@Column(name = "NUM_MATRICULA_DOCTOR_AUTORIZA", unique = false, nullable = true)
+	private String numMatriculaAutoriza;
 	
-	@Column(name = "ID_ESTATUS_SOLICITUD", unique = false, nullable = true)
-	private Integer idEstatusSolicitud;
+	@Column(name = "DES_ESTATUS_SOLICITUD", unique = false, nullable = true)
+	private String desEstatusSolicitud;
 	
 	@Column(name = "DES_MOTIVO_CANCELACION", unique = false, nullable = true)
 	private String desmotivoCancelacion;

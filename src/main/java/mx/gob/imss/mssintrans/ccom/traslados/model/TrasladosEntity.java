@@ -23,8 +23,8 @@ public class TrasladosEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_SOLICITUD", unique = false, nullable = true)
-	private Integer idSolicitud; 
-	/*
+	private Integer idSolicitud;
+	
 	@Column(name = "FEC_SOLICITUD", unique = false, nullable = true)
 	private String fecSolicitud;
 	
@@ -52,11 +52,11 @@ public class TrasladosEntity {
 	@Column(name = "IND_CAPSULA", unique = false, nullable = true)
 	private Integer indCapsula;
 	
-	@Column(name = "NUM_TIPO_SERVICIO", unique = false, nullable = true)
-	private Integer numTipoServicio;
+	@Column(name = "DES_TIPO_SERVICIO", unique = false, nullable = true)
+	private Integer desTipoServicio;
 	
-	@Column(name = "NUM_POSTURA_PACIENTE", unique = false, nullable = true)
-	private Integer numPosturaPaciente;
+	@Column(name = "DES_POSTURA_PACIENTE", unique = false, nullable = true)
+	private Integer desPosturaPaciente;
 	
 	@Column(name = "FEC_TRANSMISION", unique = false, nullable = true)
 	private String fecTransmision;
@@ -67,8 +67,8 @@ public class TrasladosEntity {
 	@Column(name = "CVE_ORIGEN", unique = false, nullable = true)
 	private Integer cveOrigen;
 	
-	@Column(name = "CVE_AREA_ORIGEN", unique = false, nullable = true)
-	private Integer cveAreaOrigen;
+	@Column(name = "DES_AREA_ORIGEN", unique = false, nullable = true)
+	private String desAreaOrigen;
 	
 	@Column(name = "NUM_CAMA_ORIGEN", unique = false, nullable = true)
 	private Integer numCamaOrigen;
@@ -76,17 +76,29 @@ public class TrasladosEntity {
 	@Column(name = "CVE_DESTINO", unique = false, nullable = true)
 	private Integer cveDestino;
 	
-	@Column(name = "CVE_AREA_DESTINO", unique = false, nullable = true)
-	private Integer cveAreaDestino;
+	@Column(name = "DES_AREA_DESTINO", unique = false, nullable = true)
+	private String desAreaDestino;
 	
 	@Column(name = "NUM_CAMA_DESTINO", unique = false, nullable = true)
 	private Integer numCamaDestino;
 	
 	@Column(name = "ID_CODIGO_POSTAL", unique = false, nullable = true)
 	private Integer idCodigoPostal;
+
+	@Column(name = "CVE_COD_POSTAL", unique = false, nullable = true)
+	private String codigoPostal;
 	
 	@Column(name = "ID_MUNICIPIO", unique = false, nullable = true)
-	private Integer idMunicipio;
+	private String idMunicipio;
+
+	@Column(name = "NOM_MUNICIPIO", unique = false, nullable = true)
+	private String nomMunicipio;
+
+	@Column(name = "ID_ENTIDAD", unique = false, nullable = true)
+	private String idEstado;
+	
+	@Column(name = "NOM_ENTIDAD", unique = false, nullable = true)
+	private String nomEstado;
 	
 	@Column(name = "DES_COLONIA", unique = false, nullable = true)
 	private String desColonia;
@@ -119,10 +131,10 @@ public class TrasladosEntity {
 	private String numFolioAceptacion;
 	
 	@Column(name = "NUM_MATICULA_AUTORIZA", unique = false, nullable = true)
-	private String numMaticulaAutoriza;
+	private Integer numMaticulaAutoriza;
 	
-	@Column(name = "ID_ESTATUS_SOLICITUD", unique = false, nullable = true)
-	private Integer idEstatusSolicitud;
+	@Column(name = "DES_ESTATUS_SOLICITUD", unique = false, nullable = true)
+	private String desEstatusSolicitud;
 	
 	@Column(name = "DES_MOTIVO_CANCELACION", unique = false, nullable = true)
 	private String desmotivoCancelacion;
@@ -130,18 +142,4 @@ public class TrasladosEntity {
 	@Column(name = "CVE_MATRICULA", unique = false, nullable = true)
 	private String cveMatricula;
 	
-	@Column(name = "FEC_ALTA", unique = false, nullable = true)
-	private String fecAlta;
-
-	@Column(name = "FEC_ACTUALIZACION", unique = false, nullable = true)
-	private String fecActualizacion;
-
-	@Column(name = "FEC_BAJA", unique = false, nullable = true)
-	private String fecBaja;
-	
-	@Column(name = "IND_ACTIVO", unique = false, nullable = true)
-	private Integer indActivo;
-
-	@Column(name = "IND_SISTEMA", unique = false, nullable = true)
-	private Integer indSistema; */
 }

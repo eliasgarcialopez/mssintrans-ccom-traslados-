@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,9 +28,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mx.gob.imss.mssintrans.ccom.traslados.dto.DatosUsuarioDTO;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Traslado;
 
@@ -47,16 +51,16 @@ public class TrasladosController {
 	@Autowired
 	private final TrasladoServiceImpl trasladoServiceImpl;
 
-	@GetMapping
+	@GetMapping("/buscar")
 	public ResponseEntity<Respuesta<?>> consultaGeneral(@RequestParam("pagina") int page,
 			@RequestParam(value = "tamanio", defaultValue = "10") int size,
-			@RequestParam(value = "sort", defaultValue = "idAseguradora,desc") String[] sort
+			@RequestParam(value = "sort", defaultValue = "ID_SOLICITUD,desc") String[] sort
 			) {
 		Respuesta<Page<TrasladosTablaRespuesta>> response = new Respuesta<>();
 		Pageable pageable = null; 
 				pageable=PageRequest.of(page, size, Sort.by(TrasladosController.convertSort(sort)));
 	
-	//	response = trasladoServiceImpl.consultaGeneral(pageable, null);
+		response = trasladoServiceImpl.consultaGeneral(pageable, null);
 		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getCodigo()));
 	}
 
@@ -72,11 +76,27 @@ public class TrasladosController {
 		}
 		return orders;
 	}
+	
+	@GetMapping("/{idTraslado}")
+	public ResponseEntity<Respuesta<?>>consultarTraslado(@PathVariable Integer idTraslado ){
+		Respuesta<?> response = trasladoServiceImpl.consultaPorId(idTraslado);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 
 	@PostMapping()
 	public ResponseEntity<Respuesta<?>> crearTraslado(@RequestBody Traslado traslado) {
 		Respuesta<?> response = new Respuesta<>();
-		response = trasladoServiceImpl.guardarNuevoRegistro(traslado);
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (usuario.equals("denegado")) {
+			response.setError(false);
+			response.setCodigo(HttpStatus.UNAUTHORIZED.value());
+			response.setMensaje(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		Gson gson = new Gson();
+		DatosUsuarioDTO datosUsuarios = gson.fromJson(usuario, DatosUsuarioDTO.class);
+		
+		response = trasladoServiceImpl.guardarNuevoRegistro(traslado,datosUsuarios.getMatricula());
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
@@ -84,8 +104,18 @@ public class TrasladosController {
 	public ResponseEntity<Respuesta<?>> actualizarTraslado(@PathVariable Integer idSolicitud,
 			@RequestBody Traslado traslado) {
 		Respuesta<?> response = new Respuesta<>();
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (usuario.equals("denegado")) {
+			response.setError(false);
+			response.setCodigo(HttpStatus.UNAUTHORIZED.value());
+			response.setMensaje(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		Gson gson = new Gson();
+		DatosUsuarioDTO datosUsuarios = gson.fromJson(usuario, DatosUsuarioDTO.class);
+		
 		traslado.setIdSolicitud(idSolicitud);
-		response = trasladoServiceImpl.actualizarRegistro(traslado);
+		response = trasladoServiceImpl.actualizarRegistro(traslado,datosUsuarios.getMatricula());
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
@@ -111,5 +141,16 @@ public class TrasladosController {
 		});
 		return response;
 	}
+	
+	public Respuesta<?> denegado( String usuario ){
+
+        Respuesta<?> response = new Respuesta<>();
+        response.setError(false);
+        response.setCodigo(HttpStatus.UNAUTHORIZED.value());
+        response.setMensaje(usuario);
+
+        return response;
+    }
+
 
 }

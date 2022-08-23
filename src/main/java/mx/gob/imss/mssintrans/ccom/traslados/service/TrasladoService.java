@@ -11,7 +11,7 @@ public interface TrasladoService {
 
 	<T>Respuesta consultaGeneral(Pageable pageable, DatosUsuarioDTO usuarioDTO);
 	<T>Respuesta consultaPorId(Integer id);
-	<T>Respuesta guardarNuevoRegistro(Traslado traslados);
+	<T>Respuesta guardarNuevoRegistro(Traslado traslados,String matricula);
 	<T>Respuesta eliminarTraslado(Integer id);
-	<T>Respuesta actualizarRegistro(Traslado siniestro);
+	<T>Respuesta actualizarRegistro(Traslado siniestro,String matricula);
 }

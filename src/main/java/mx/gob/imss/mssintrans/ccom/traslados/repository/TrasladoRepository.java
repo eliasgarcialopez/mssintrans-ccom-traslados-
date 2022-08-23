@@ -1,5 +1,6 @@
 package mx.gob.imss.mssintrans.ccom.traslados.repository;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -11,35 +12,14 @@ import mx.gob.imss.mssintrans.ccom.traslados.model.TrasladoEntity;
 
 public interface TrasladoRepository extends JpaRepository<TrasladoEntity, Integer> {
 
-	@Query(value = ""
-			+ "SELECT	SSI.*															 "
-			+ "FROM		SINTRANST_SOLICITUD_TRASLADO SST   									 "
-			//+ "INNER 	JOIN SINTRANST_VEHICULOS SVE ON SVE.ID_VEHICULO = SSI.ID_VEHICULO "			
-			+ "WHERE   	SST.IND_ACTIVO 	= '1'"
-			+ "",
-			countQuery = ""
-					+ "SELECT	COUNT(*)															 "
-					+ "FROM		SINTRANST_SOLICITUD_TRASLADO SST   									 "
-				//	+ "INNER	JOIN SINTRANST_VEHICULOS SVE ON SVE.ID_VEHICULO = SSI.ID_VEHICULO "
-					+ "WHERE   	SST.IND_ACTIVO 	= '1'"
-					,
-			nativeQuery = true )
-	Page<TrasladoEntity>consultaGeneral(Pageable paginado);
 	
 	@Query(value = ""
-			+ "SELECT	SSI.*															 "
-			+ "FROM		SINTRANST_SOLICITUD_TRASLADO SST   									 "
-			//+ "INNER 	JOIN SINTRANST_VEHICULOS SVE ON SVE.ID_VEHICULO = SSI.ID_VEHICULO "			
-			+ "WHERE   	SST.IND_ACTIVO 	= '1'"
-			+ "",
-			countQuery = ""
-					+ "SELECT	COUNT(*)															 "
-					+ "FROM		SINTRANST_SOLICITUD_TRASLADO SST   									 "
-				//	+ "INNER	JOIN SINTRANST_VEHICULOS SVE ON SVE.ID_VEHICULO = SSI.ID_VEHICULO "
-					+ "WHERE   	SST.IND_ACTIVO 	= '1', SST.ID_SOLICITUD 	= ? "
-					,
-			nativeQuery = true )
-	TrasladoEntity consultaPorId(int id);
+			+ "SELECT  	/* QUERY PARA OBTENER 1 REGISTRO; ACTIVO; POR ID*/ 					"
+			+ "        	*  																	"
+			+ "FROM    	SINTRANST_SOLICITUD_TRASLADO 												"
+			+ "WHERE 	IND_ACTIVO 								= '1' 						"
+			,nativeQuery = true )
+	public BigDecimal max();
 	
 	Optional<TrasladoEntity> findByIdSolicitudAndIndActivoEquals(Integer id, Integer activo);
 }

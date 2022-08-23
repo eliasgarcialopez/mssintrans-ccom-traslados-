@@ -14,19 +14,20 @@ public class Traslado {
 	private Integer idUnidadSolicitante;
 	private Integer idUnidadAdscripcion;
 	private String desnsPaciente;
+	private String desNomPaciente;
 	private String desDiagnostico;
 	private Integer indOxigeno;
 	private Integer indIncubadora;
 	private Integer indCapsula;
-	private Integer numTipoServicio;
-	private Integer numPosturaPaciente;
+	private Integer desTipoServicio;
+	private Integer desPosturaPaciente;
 	private String fecTransmision;
 	private String timTransmision;
 	private Integer cveOrigen;
-	private Integer cveAreaOrigen;
+	private String desAreaOrigen;
 	private Integer numCamaOrigen;
 	private Integer cveDestino;
-	private Integer cveAreaDestino;
+	private String desAreaDestino;
 	private Integer numCamaDestino;
 	private Integer idCodigoPostal;
 	private Integer idMunicipio;
@@ -38,11 +39,13 @@ public class Traslado {
 	private Integer numTelDestino;
 	private String nomFamiliar;
 	private Integer telFamiliar;
-	private String cveMatriculaRecibe;
+	private String numMatriculaRecibe;
+	private String desNomDoctorRecibe;
 	private String numFolioAceptacion;
-	private String numMaticulaAutoriza;
-	private Integer idEstatusSolicitud;
+	private String numMatriculaAutoriza;
+	private String desNomDoctorAutoriza;
+	private String desEstatusSolicitud;
 	private String desmotivoCancelacion;
-	private String cveMatricula;
+	//private String cveMatricula;
 
 }
