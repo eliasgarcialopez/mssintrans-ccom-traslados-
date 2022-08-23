@@ -26,6 +26,9 @@ public class CenPasEntity {
 	@Column(name = "DES_NSS", unique = false, nullable = true) 
 	private String desNss;
 	
+	@Column(name = "NOMBRE_PACIENTE", unique = false, nullable = true) 
+	private String nombre;
+	
 	@Column(name = "DES_ESTATUS", unique = false, nullable = true) 
 	private String desEstatus;
 	

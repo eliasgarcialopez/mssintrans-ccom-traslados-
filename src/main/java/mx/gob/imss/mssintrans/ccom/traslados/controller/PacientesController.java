@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,14 +34,15 @@ public class PacientesController {
 	@PostMapping
 	public ResponseEntity<Respuesta<?>> crear(
 			@RequestParam String desNss,
-			@RequestParam String desEstatus,
-			@RequestParam Integer lunes,
-			@RequestParam Integer martes,
-			@RequestParam Integer miercoles,
-			@RequestParam Integer jueves,
-			@RequestParam Integer viernes,
-			@RequestParam Integer sabado,
-			@RequestParam Integer domingo
+			@RequestParam String nombre,
+			@RequestParam(required=false) String desEstatus,
+			@RequestParam(required=false) Integer lunes,
+			@RequestParam(required=false) Integer martes,
+			@RequestParam(required=false) Integer miercoles,
+			@RequestParam(required=false) Integer jueves,
+			@RequestParam(required=false) Integer viernes,
+			@RequestParam(required=false) Integer sabado,
+			@RequestParam(required=false) Integer domingo
 			) {
 		
 		Respuesta<?> response;
@@ -63,6 +65,7 @@ public class PacientesController {
 		 */
 		CenPasEntity cenPasEntity = new CenPasEntity();
 		cenPasEntity.setDesNss(desNss);
+		cenPasEntity.setNombre(nombre);
 		cenPasEntity.setDesEstatus(desEstatus);
 		cenPasEntity.setLunes(lunes);
 		cenPasEntity.setMartes(martes);
@@ -83,7 +86,6 @@ public class PacientesController {
 	@PutMapping
 	public ResponseEntity<?> actualizar(
 			@RequestParam Integer idCenso,
-			@RequestParam String desNss,
 			@RequestParam String desEstatus,
 			@RequestParam Integer lunes,
 			@RequestParam Integer martes,
@@ -114,7 +116,6 @@ public class PacientesController {
 		 */
 		CenPasEntity cenPasEntity = new CenPasEntity();
 		cenPasEntity.setIdCenso(idCenso);
-		cenPasEntity.setDesNss(desNss);
 		cenPasEntity.setDesEstatus(desEstatus);
 		cenPasEntity.setLunes(lunes);
 		cenPasEntity.setMartes(martes);
@@ -152,6 +153,38 @@ public class PacientesController {
 		 */
 		
 		response = cenPasService.consultaPorId(idCenso);
+		
+		ResponseEntity<?> responseEntity;
+		
+		if(response.isError()) {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		}else {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		
+		return responseEntity;
+	}
+	
+	@DeleteMapping("/{idCenso}")
+	public ResponseEntity<?> eliminar(@PathVariable Integer idCenso) {
+		
+		Respuesta<?> response;
+		
+		/**
+		 * Validacion de seguridad del usuario
+		 */
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if (usuario.equals("denegado")) {
+			response = denegado(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		
+		/**
+		 * Llamado al funcionamiento del servicio
+		 */
+		
+		response = cenPasService.eliminar(idCenso);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	

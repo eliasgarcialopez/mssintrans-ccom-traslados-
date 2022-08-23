@@ -12,7 +12,6 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			+ "UPDATE SINTRANST_CENSO_PACIENTES  "
 			+ " "
 			+ "SET 	 "
-			+ "		DES_NSS=?, "
 			+ "		DES_ESTATUS=?, "
 			+ "		IND_LUNES=?, "
 			+ "		IND_MARTES=?, "
@@ -27,7 +26,6 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			+ "WHERE 	ID_CENSO=?"
 			,nativeQuery = true )
 	void actualizar (
-			String desNss,
 			String desEstatus,
 			Integer lunes,
 			Integer martes,
@@ -53,5 +51,16 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 					+ "",
 			nativeQuery = true )
 	CenPasEntity consultaPorId (Integer idCenso);
+	
+	@Modifying(flushAutomatically = true)
+	@Query(value = ""
+			+ "UPDATE SINTRANST_CENSO_PACIENTES "
+			+ "SET	"
+			+ "FEC_BAJA	= CURRENT_DATE(), "
+			+ "IND_ACTIVO = 0 "
+			+ "WHERE IND_ACTIVO = '1' "
+			+ "AND ID_CENSO = ? "
+			,nativeQuery = true )
+	void eliminar ( int id );
 	
 }

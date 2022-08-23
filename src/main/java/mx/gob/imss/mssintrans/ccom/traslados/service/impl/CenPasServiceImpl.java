@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.transaction.Transactional;
 
+import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -72,7 +73,7 @@ public class CenPasServiceImpl implements CenPasService {
 		
 		try {
 			
-			cenPasRepository.actualizar(cenPasEntity.getDesNss(), cenPasEntity.getDesEstatus(), cenPasEntity.getLunes(),
+			cenPasRepository.actualizar(cenPasEntity.getDesEstatus(), cenPasEntity.getLunes(),
 					cenPasEntity.getMartes(), cenPasEntity.getMiercoles(), cenPasEntity.getJueves(), cenPasEntity.getViernes(),
 					cenPasEntity.getSabado(), cenPasEntity.getDomingo(), cenPasEntity.getCveMatricula(), cenPasEntity.getIdCenso());
 			
@@ -101,7 +102,21 @@ public class CenPasServiceImpl implements CenPasService {
 		try {
 			
 			cenPasEntity = cenPasRepository.consultaPorId(idCenso);
+			
+			if(cenPasEntity==null) {
+				respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
+				respuesta.setError(true);
+				respuesta.setMensaje("Paciente no encontrado en el Censo.");
+				return respuesta;
+			}
+			
+			
 			response = CenPasMapper.INSTANCE.entityAJson(cenPasEntity);
+			
+			respuesta.setCodigo(HttpStatus.OK.value());
+			respuesta.setError(false);
+			respuesta.setMensaje("Exito");
+			respuesta.setDatos(response);
 		
 		} catch (Exception e) {
 			respuesta.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -110,10 +125,29 @@ public class CenPasServiceImpl implements CenPasService {
 			return respuesta;
 		}
 		
-		respuesta.setCodigo(HttpStatus.OK.value());
-		respuesta.setError(false);
-		respuesta.setMensaje("Exito");
-		respuesta.setDatos(response);
+		return respuesta;
+	}
+
+	@Transactional(rollbackOn = SQLException.class)
+	@Override
+	public Respuesta<CenPasResponse> eliminar(Integer idCenso) {
+		Respuesta<CenPasResponse> respuesta = new Respuesta<>();
+		
+		try {
+			
+			cenPasRepository.eliminar(idCenso);
+			cenPasRepository.flush();
+			
+			respuesta.setCodigo(HttpStatus.OK.value());
+			respuesta.setError(false);
+			respuesta.setMensaje("Exito");
+			
+		} catch (Exception e) {
+			Log.error(e.getMessage());
+			respuesta.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			respuesta.setError(true);
+			respuesta.setMensaje(e.getMessage());
+		}
 		
 		return respuesta;
 	}

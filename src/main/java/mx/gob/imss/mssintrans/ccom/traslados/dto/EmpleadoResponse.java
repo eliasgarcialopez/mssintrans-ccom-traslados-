@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmpleadoResponse {
-
-	private Integer matricula;
 	
-	private String nombre;
+	private Integer idCenso;
+
+	private String matriculaDoctor;
+	
+	private String nombreDoctor;
 
 }

@@ -13,12 +13,10 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.CenDocResponse;
-import mx.gob.imss.mssintrans.ccom.traslados.dto.Empleado;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.model.CenDocEntity;
 import mx.gob.imss.mssintrans.ccom.traslados.repository.CenDocRepository;
 import mx.gob.imss.mssintrans.ccom.traslados.service.CenDocService;
-import mx.gob.imss.mssintrans.ccom.traslados.service.ConsultaMatriculaService;
 import mx.gob.imss.mssintrans.ccom.traslados.util.CenDocMapper;
 
 @Transactional(rollbackOn = SQLException.class)
@@ -28,9 +26,6 @@ public class CenDocServiceImpl implements CenDocService {
 
 	@Autowired
 	private CenDocRepository cenDocRepository;
-	
-	@Autowired
-	ConsultaMatriculaService consultaMatriculaService;
 	
 	@Transactional(rollbackOn = SQLException.class)
 	@Override
@@ -51,7 +46,7 @@ public class CenDocServiceImpl implements CenDocService {
 			
 			log.info("Creando Nuevo Censo de Doctores");
 			
-			CenDocEntity registro = cenDocRepository.consultaPorMat(cenDocEntity.getCveMatricula());
+			CenDocEntity registro = cenDocRepository.consultaPorMat(cenDocEntity.getMatriculaDoctor());
 			
 			if(registro==null) {
 			
@@ -93,8 +88,8 @@ public class CenDocServiceImpl implements CenDocService {
 			
 			if(registro==null) {
 				
-				cenDocRepository.actualizar(cenDocEntity.getCveMatricula(), cenDocEntity.getIdUnidad(), cenDocEntity.getDesEstatus(),
-						cenDocEntity.getCveMatriculaAud(), cenDocEntity.getIdCenso());
+				cenDocRepository.actualizar(cenDocEntity.getIdUnidad(), cenDocEntity.getDesEstatus(),
+						cenDocEntity.getCveMatricula(), cenDocEntity.getIdCenso());
 				
 				respuesta.setCodigo(HttpStatus.OK.value());
 				respuesta.setError(false);
@@ -126,7 +121,6 @@ public class CenDocServiceImpl implements CenDocService {
 		Respuesta<CenDocResponse> respuesta = new Respuesta<>();
 		CenDocResponse response;
 		CenDocEntity cenDocEntity;
-		Empleado empleado = null;
 		
 		try {
 			
@@ -137,25 +131,13 @@ public class CenDocServiceImpl implements CenDocService {
 				respuesta.setError(true);
 				respuesta.setMensaje("Doctor no encontrado en el Censo.");
 				return respuesta;
-			}else {
-				response = CenDocMapper.INSTANCE.entityAJson(cenDocEntity);
-				empleado = consultaMatriculaService.consultaMatricula(response.getCveMatricula().toString());
 			}
 			
-			if(empleado==null) {
-				
-				respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
-				respuesta.setError(true);
-				respuesta.setMensaje("Doctor no encontrado en el SIAP.");
-				
-			}else {
-				response.setNombre(empleado.getNombre());
-				
-				respuesta.setCodigo(HttpStatus.OK.value());
-				respuesta.setError(false);
-				respuesta.setMensaje("Exito");
-				respuesta.setDatos(response);
-			}
+			response = CenDocMapper.INSTANCE.entityAJson(cenDocEntity);
+			respuesta.setCodigo(HttpStatus.OK.value());
+			respuesta.setError(false);
+			respuesta.setMensaje("Exito");
+			respuesta.setDatos(response);
 			
 		} catch (Exception e) {
 			respuesta.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.value());

@@ -23,8 +23,11 @@ public class CenDocEntity {
 	@Column(name = "ID_CENSO", unique = false, nullable = true) 
 	private Integer idCenso;
 	
-	@Column(name = "CVE_MATRICULA", unique = false, nullable = true) 
-	private Integer cveMatricula;
+	@Column(name = "MATRICULA_DOCTOR", unique = false, nullable = true) 
+	private String matriculaDoctor;
+	
+	@Column(name = "NOMBRE_DOCTOR", unique = false, nullable = true) 
+	private String nombreDoctor;
 	
 	@Column(name = "ID_UNIDAD", unique = false, nullable = true) 
 	private Integer idUnidad;
@@ -32,8 +35,8 @@ public class CenDocEntity {
 	@Column(name = "DES_ESTATUS", unique = false, nullable = true) 
 	private String desEstatus;
 	
-	@Column(name = "CVE_MATRICULA_AUDITORIA", unique = false, nullable = true) 
-	private String cveMatriculaAud;
+	@Column(name = "CVE_MATRICULA", unique = false, nullable = true) 
+	private String cveMatricula;
 	
 	@Column(name = "FEC_ALTA", unique = false, nullable = true) 
 	private String fecAlta;

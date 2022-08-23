@@ -1,50 +1,65 @@
 package mx.gob.imss.mssintrans.ccom.traslados.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import mx.gob.imss.mssintrans.ccom.traslados.dto.Empleado;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.EmpleadoResponse;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
-import mx.gob.imss.mssintrans.ccom.traslados.service.ConsultaMatriculaService;
+import mx.gob.imss.mssintrans.ccom.traslados.model.CenDocEntity;
+import mx.gob.imss.mssintrans.ccom.traslados.repository.CenDocRepository;
 import mx.gob.imss.mssintrans.ccom.traslados.service.SiapService;
+import mx.gob.imss.mssintrans.ccom.traslados.util.CenDocMapper;
 
 @Slf4j
 @Service
 public class SiapServiceImpl implements SiapService {
 	
 	@Autowired
-	ConsultaMatriculaService consultaMatriculaService;
+	private CenDocRepository cenDocRepository;
 
 	@Override
 	public Respuesta<EmpleadoResponse> buscarPorMat(String matricula) {
 		
 		Respuesta<EmpleadoResponse> respuesta = new Respuesta<>();
-		Empleado response;
 		EmpleadoResponse empleado = new EmpleadoResponse();
 		
-		response = consultaMatriculaService.consultaMatricula(matricula);
+		CenDocEntity registro = cenDocRepository.consultaPorMat(matricula);
 		
-		log.info("Resultado: " + response);
+		log.info("Resultado: " + registro);
 		
-		if(response==null) {
-			
+		if(registro==null) {
 			respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
 			respuesta.setError(true);
-			respuesta.setMensaje("No se encontro el registro.");
-			
-		}else {
-			
-			empleado.setMatricula(response.getMatricula());
-			empleado.setNombre(response.getNombre());
-			
-			respuesta.setCodigo(HttpStatus.OK.value());
-			respuesta.setError(false);
-			respuesta.setMensaje("Exito");
-			respuesta.setDatos(empleado);
+			respuesta.setMensaje("Doctor no encontrado en el Censo.");
+			return respuesta;
 		}
+		
+		empleado = CenDocMapper.INSTANCE.entityAMat(registro);
+		respuesta.setCodigo(HttpStatus.OK.value());
+		respuesta.setError(false);
+		respuesta.setMensaje("Exito");
+		respuesta.setDatos(empleado);
+		
+		return respuesta;
+	}
+
+	@Override
+	public Respuesta<List<EmpleadoResponse>> buscarMat() {
+		Respuesta<List<EmpleadoResponse>> respuesta = new Respuesta<>();
+		List<EmpleadoResponse> lista;
+		List<CenDocEntity> matriculas;
+		
+		matriculas = cenDocRepository.consultaMat();
+		lista = CenDocMapper.INSTANCE.entityAMat(matriculas);
+		
+		respuesta.setCodigo(HttpStatus.OK.value());
+		respuesta.setError(false);
+		respuesta.setMensaje("Exito");
+		respuesta.setDatos(lista);
 		
 		return respuesta;
 	}

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonRootName(value = "censoDoctores")
+@JsonRootName(value = "censoPacientes")
 public class CenPasResponse {
 	
 	@JsonProperty
@@ -18,6 +18,9 @@ public class CenPasResponse {
 
 	@JsonProperty
 	private String desNss;
+	
+	@JsonProperty
+	private String nombre;
 	
 	@JsonProperty 
 	private String desEstatus;

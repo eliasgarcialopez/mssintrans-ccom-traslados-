@@ -17,10 +17,10 @@ public class CenDocResponse {
 	private Integer idCenso;
 
 	@JsonProperty
-	private Integer cveMatricula;
+	private String matriculaDoctor;
 	
 	@JsonProperty
-	private String nombre;
+	private String nombreDoctor;
 	
 	@JsonProperty
 	private Integer idUnidad;
@@ -29,7 +29,7 @@ public class CenDocResponse {
 	private String desEstatus;
 	
 	@JsonProperty
-	private String cveMatriculaAud;
+	private String cveMatricula;
 	
 	@JsonProperty
 	private String fecAlta;

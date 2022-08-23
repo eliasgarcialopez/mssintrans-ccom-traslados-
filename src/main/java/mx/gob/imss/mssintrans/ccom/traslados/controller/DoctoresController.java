@@ -37,9 +37,10 @@ public class DoctoresController {
 	
 	@PostMapping
 	public ResponseEntity<Respuesta<?>> crear(
-			@RequestParam Integer cveMatricula,
-			@RequestParam Integer idUnidad,
-			@RequestParam String desEstatus
+			@RequestParam String matricula,
+			@RequestParam String nombre,
+			@RequestParam(required=false) Integer idUnidad,
+			@RequestParam(required=false) String desEstatus
 			) {
 		
 		Respuesta<?> response;
@@ -61,10 +62,11 @@ public class DoctoresController {
 		 * Llamado al funcionamiento del servicio
 		 */
 		CenDocEntity cenDocEntity = new CenDocEntity();
-		cenDocEntity.setCveMatricula(cveMatricula);
+		cenDocEntity.setMatriculaDoctor(matricula);
+		cenDocEntity.setNombreDoctor(nombre);
 		cenDocEntity.setIdUnidad(idUnidad);
 		cenDocEntity.setDesEstatus(desEstatus);
-		cenDocEntity.setCveMatriculaAud( datosUsuarios.matricula );
+		cenDocEntity.setCveMatricula( datosUsuarios.matricula );
 		
 		log.info(cenDocEntity.toString());
 		
@@ -86,7 +88,6 @@ public class DoctoresController {
 	@PutMapping
 	public ResponseEntity<?> actualizar(
 			@RequestParam Integer idCenso,
-			@RequestParam Integer cveMatricula,
 			@RequestParam Integer idUnidad,
 			@RequestParam String desEstatus
 			) {
@@ -111,10 +112,9 @@ public class DoctoresController {
 		 */
 		CenDocEntity cenDocEntity = new CenDocEntity();
 		cenDocEntity.setIdCenso(idCenso);
-		cenDocEntity.setCveMatricula(cveMatricula);
 		cenDocEntity.setIdUnidad(idUnidad);
 		cenDocEntity.setDesEstatus(desEstatus);
-		cenDocEntity.setCveMatriculaAud( datosUsuarios.matricula );
+		cenDocEntity.setCveMatricula( datosUsuarios.matricula );
 		
 		log.info(cenDocEntity.toString());
 		
@@ -195,6 +195,37 @@ public class DoctoresController {
 		 */
 		
 		response = siapService.buscarPorMat(matricula);
+		ResponseEntity<?> responseEntity;
+		
+		if(response.isError()) {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		}else {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		
+		return responseEntity;
+	}
+	
+	@GetMapping("/matricula")
+	public ResponseEntity<?> obtenerMatriculas() {
+		
+		Respuesta<?> response;
+		
+		/**
+		 * Validacion de seguridad del usuario
+		 */
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if (usuario.equals("denegado")) {
+			response = denegado(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		
+		/**
+		 * Llamado al funcionamiento del servicio
+		 */
+		
+		response = siapService.buscarMat();
 		ResponseEntity<?> responseEntity;
 		
 		if(response.isError()) {

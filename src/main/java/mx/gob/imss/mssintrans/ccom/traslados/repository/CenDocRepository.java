@@ -1,5 +1,7 @@
 package mx.gob.imss.mssintrans.ccom.traslados.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,19 +15,17 @@ public interface CenDocRepository extends JpaRepository<CenDocEntity, Integer> {
 			+ "UPDATE SINTRANST_CENSO_DOCTORES  "
 			+ " "
 			+ "SET 	 "
-			+ "		CVE_MATRICULA=?, "
 			+ "		ID_UNIDAD=?, "
 			+ "		DES_ESTATUS=?, "
-			+ "		CVE_MATRICULA_AUDITORIA=?, "
+			+ "		CVE_MATRICULA=?, "
 			+ "		FEC_ACTUALIZACION=CURRENT_DATE() "
 			+ " "
 			+ "WHERE 	ID_CENSO=?"
 			,nativeQuery = true )
 	void actualizar (
-			Integer cveMatricula,
 			Integer idUnidad,
 			String desEstatus,
-			String cveMatriculaAud,
+			String cveMatricula,
 			Integer idCenso );
 	
 	@Query(value = ""
@@ -46,17 +46,30 @@ public interface CenDocRepository extends JpaRepository<CenDocEntity, Integer> {
 	@Query(value = ""
 			+ "SELECT	* "
 			+ "FROM		SINTRANST_CENSO_DOCTORES SCC "
-			+ "WHERE    SCC.CVE_MATRICULA = ? "
+			+ "WHERE    SCC.MATRICULA_DOCTOR = ? "
 			+ "AND   	SCC.IND_ACTIVO 	= '1' "
 			+ "",
 			countQuery = ""
 					+ "SELECT	COUNT(*)"
 					+ "FROM		SINTRANST_CENSO_DOCTORES SCC "
-					+ "WHERE    SCC.CVE_MATRICULA = ? "
+					+ "WHERE    SCC.MATRICULA_DOCTOR = ? "
 					+ "AND   	SCC.IND_ACTIVO 	= '1' "
 					+ "",
 			nativeQuery = true )
-	CenDocEntity consultaPorMat (Integer cveMatricula);
+	CenDocEntity consultaPorMat (String matricula);
+	
+	@Query(value = ""
+			+ "SELECT	* "
+			+ "FROM		SINTRANST_CENSO_DOCTORES SCC "
+			+ "WHERE    SCC.IND_ACTIVO 	= '1' "
+			+ "",
+			countQuery = ""
+					+ "SELECT	COUNT(*)"
+					+ "FROM		SINTRANST_CENSO_DOCTORES SCC "
+					+ "WHERE    SCC.IND_ACTIVO 	= '1' "
+					+ "",
+			nativeQuery = true )
+	List<CenDocEntity> consultaMat ();
 	
 	@Modifying(flushAutomatically = true)
 	@Query(value = ""

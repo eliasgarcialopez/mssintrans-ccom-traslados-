@@ -9,5 +9,5 @@ public interface CenPasService {
 	Respuesta<CenPasResponse> crear(CenPasEntity cenPasEntity);
 	Respuesta<CenPasResponse> actualizar(CenPasEntity cenPasEntity);
 	Respuesta<CenPasResponse> consultaPorId(Integer idCenso);
-
+	Respuesta<CenPasResponse> eliminar(Integer idCenso);
 }
