@@ -3,6 +3,7 @@ package mx.gob.imss.mssintrans.ccom.traslados.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+
 import mx.gob.imss.mssintrans.ccom.traslados.model.CenPasEntity;
 
 public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
@@ -62,5 +63,20 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			+ "AND ID_CENSO = ? "
 			,nativeQuery = true )
 	void eliminar ( int id );
+	
+	@Query(value = ""
+			+ "SELECT	* "
+			+ "FROM		SINTRANST_CENSO_PACIENTES SCP "
+			+ "WHERE    SCP.DES_NSS = ? "
+			+ "AND   	SCP.IND_ACTIVO 	= '1' "
+			+ "",
+			countQuery = ""
+					+ "SELECT	COUNT(*)"
+					+ "FROM		SINTRANST_CENSO_PACIENTES SCP "
+					+ "WHERE    SCP.DES_NSS = ? "
+					+ "AND   	SCP.IND_ACTIVO 	= '1' "
+					+ "",
+			nativeQuery = true )
+	CenPasEntity consultaPorNss (String desNss);
 	
 }

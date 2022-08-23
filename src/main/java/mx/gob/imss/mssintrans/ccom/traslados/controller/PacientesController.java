@@ -188,6 +188,38 @@ public class PacientesController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
+	@GetMapping("/nss/{desNss}")
+	public ResponseEntity<?> obtenerNss(@PathVariable String desNss) {
+		
+		Respuesta<?> response;
+		
+		/**
+		 * Validacion de seguridad del usuario
+		 */
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if (usuario.equals("denegado")) {
+			response = denegado(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		
+		/**
+		 * Llamado al funcionamiento del servicio
+		 */
+		
+		response = cenPasService.consultaPorNss(desNss);
+		
+		ResponseEntity<?> responseEntity;
+		
+		if(response.isError()) {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		}else {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		
+		return responseEntity;
+	}
+	
 	public Respuesta<?> denegado( String usuario ){
 		
 		Respuesta<?> response = new Respuesta<>();

@@ -152,4 +152,39 @@ public class CenPasServiceImpl implements CenPasService {
 		return respuesta;
 	}
 
+	@Override
+	public Respuesta<CenPasResponse> consultaPorNss(String desNss) {
+		Respuesta<CenPasResponse> respuesta = new Respuesta<>();
+		CenPasResponse response;
+		CenPasEntity cenPasEntity;
+		
+		try {
+			
+			cenPasEntity = cenPasRepository.consultaPorNss(desNss);
+			
+			if(cenPasEntity==null) {
+				respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
+				respuesta.setError(true);
+				respuesta.setMensaje("Paciente no encontrado en el Censo.");
+				return respuesta;
+			}
+			
+			
+			response = CenPasMapper.INSTANCE.entityAJson(cenPasEntity);
+			
+			respuesta.setCodigo(HttpStatus.OK.value());
+			respuesta.setError(false);
+			respuesta.setMensaje("Exito");
+			respuesta.setDatos(response);
+		
+		} catch (Exception e) {
+			respuesta.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			respuesta.setError(true);
+			respuesta.setMensaje(e.getMessage());
+			return respuesta;
+		}
+		
+		return respuesta;
+	}
+
 }
