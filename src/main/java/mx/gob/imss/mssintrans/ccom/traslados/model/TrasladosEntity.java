@@ -34,11 +34,20 @@ public class TrasladosEntity {
 	@Column(name = "ID_UNIDAD_SOLICITANTE", unique = false, nullable = true)
 	private Integer idUnidadSolicitante;
 	
+	@Column(name = "NOM_UNIDAD_SOLICITANTE", unique = false, nullable = true)
+	private String umSolicitante;
+	
 	@Column(name = "ID_UNIDAD_ADSCRIPCION", unique = false, nullable = true)
 	private Integer idUnidadAdscripcion;
 	
+	@Column(name = "NOM_UNIDAD_ADSCRIPCION", unique = false, nullable = true)
+	private String umfAdscripcion;
+	
 	@Column(name = "DES_NSS_PACIENTE", unique = false, nullable = true)
 	private String desnsPaciente;
+	
+	@Column(name = "DES_NOM_PACIENTE", unique = false, nullable = true)
+	private String desNomPaciente;
 	
 	@Column(name = "DES_DIAGNOSTICO", unique = false, nullable = true)
 	private String desDiagnostico;
@@ -124,15 +133,21 @@ public class TrasladosEntity {
 	@Column(name = "TEL_FAMILIAR", unique = false, nullable = true)
 	private Integer telFamiliar;
 	
-	@Column(name = "CVE_MATRICULA_RECIBE", unique = false, nullable = true)
-	private String cveMatriculaRecibe;
+	@Column(name = "NUM_MATRICULA_DOCTOR_RECIBE", unique = false, nullable = true)
+	private String numMatriculaRecibe;
 	
+	@Column(name = "NOMBRE_DOCTOR_RECIBE", unique = false, nullable = true)
+	private String desNomDoctorRecibe;
+
 	@Column(name = "NUM_FOLIO_ACEPTACION", unique = false, nullable = true)
 	private String numFolioAceptacion;
 	
-	@Column(name = "NUM_MATICULA_AUTORIZA", unique = false, nullable = true)
-	private Integer numMaticulaAutoriza;
+	@Column(name = "NUM_MATRICULA_DOCTOR_AUTORIZA", unique = false, nullable = true)
+	private String numMatriculaAutoriza;
 	
+	@Column(name = "NOMBRE_DOCTOR_AUTORIZA", unique = false, nullable = true)
+	private String desNomDoctorAutoriza;
+
 	@Column(name = "DES_ESTATUS_SOLICITUD", unique = false, nullable = true)
 	private String desEstatusSolicitud;
 	
@@ -141,5 +156,20 @@ public class TrasladosEntity {
 	
 	@Column(name = "CVE_MATRICULA", unique = false, nullable = true)
 	private String cveMatricula;
+	
+	@Column(name = "FEC_ALTA", unique = false, nullable = true)
+	private String fecAlta;
+
+	@Column(name = "FEC_ACTUALIZACION", unique = false, nullable = true)
+	private String fecActualizacion;
+
+	@Column(name = "FEC_BAJA", unique = false, nullable = true)
+	private String fecBaja;
+	
+	@Column(name = "IND_ACTIVO", unique = false, nullable = true)
+	private Integer indActivo;
+
+	@Column(name = "IND_SISTEMA", unique = false, nullable = true)
+	private Integer indSistema; 
 	
 }

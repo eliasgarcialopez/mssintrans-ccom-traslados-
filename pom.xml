@@ -8,11 +8,11 @@
         <version>2.6.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>mx.gob.imss.siniestros</groupId>
-    <artifactId>mssintetrans-siniestros</artifactId>
+    <groupId>mx.gob.imss.traslados</groupId>
+    <artifactId>mssintrans-ccom-traslados</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>mssintetrans-siniestros</name>
-    <description>Servicio para administracion de siniestros</description>
+    <name>mssintrans-ccom-traslados</name>
+    <description>Servicio para administracion de traslados</description>
     <properties>
         <java.version>1.8</java.version>
         <lombok.version>1.18.24</lombok.version>

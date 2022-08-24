@@ -36,50 +36,106 @@ import lombok.extern.slf4j.Slf4j;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.DatosUsuarioDTO;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Traslado;
-
+import mx.gob.imss.mssintrans.ccom.traslados.dto.TrasladosTablaRespuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.service.impl.TrasladoServiceImpl;
-import mx.gob.imss.mssintrans.ccom.traslados.util.FiltroTraslados;
-import mx.gob.imss.mssintrans.ccom.traslados.util.TrasladosTablaRespuesta;
 
 
-@AllArgsConstructor
+
+
+
+
 @Slf4j
 @RestController
 @RequestMapping("/traslados")
 @CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 public class TrasladosController {
 	@Autowired
-	private final TrasladoServiceImpl trasladoServiceImpl;
+	private TrasladoServiceImpl trasladoServiceImpl;
 
+	@SuppressWarnings("unchecked")
 	@GetMapping("/buscar")
-	public ResponseEntity<Respuesta<?>> consultaGeneral(@RequestParam("pagina") int page,
-			@RequestParam(value = "tamanio", defaultValue = "10") int size,
-			@RequestParam(value = "sort", defaultValue = "ID_SOLICITUD,desc") String[] sort
+	public ResponseEntity<Respuesta<?>> consultaGeneral(@RequestParam(value = "pagina", defaultValue = "0") int pagina,
+			@RequestParam(value = "tamanio", defaultValue = "10") int tamanio,
+			@RequestParam(value = "sort", defaultValue = "desc") String sort,
+			@RequestParam(defaultValue = "idSolicitud") String columna
 			) {
+		//Respuesta<?> response = new Respuesta<>();
 		Respuesta<Page<TrasladosTablaRespuesta>> response = new Respuesta<>();
-		Pageable pageable = null; 
-				pageable=PageRequest.of(page, size, Sort.by(TrasladosController.convertSort(sort)));
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (usuario.equals("denegado")) {
+			response.setError(false);
+			response.setCodigo(HttpStatus.UNAUTHORIZED.value());
+			response.setMensaje(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		
+		Gson gson = new Gson();
+		DatosUsuarioDTO datosUsuarios = gson.fromJson(usuario, DatosUsuarioDTO.class);
+		String nombreColumna =  nombreColumna(columna); 
+
+		Pageable pageable = PageRequest.of(pagina, tamanio, Sort.by(nombreColumna).descending());
+		
+		if(sort.equals("ASC")|| sort.equals("asc")) {
+			pageable = PageRequest.of(pagina, tamanio, Sort.by(nombreColumna).ascending());
+		}
 	
-		response = trasladoServiceImpl.consultaGeneral(pageable, null);
+		response = trasladoServiceImpl.consultaGeneral(pageable, datosUsuarios.getRol(),datosUsuarios.getIDOOAD());
 		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getCodigo()));
+		//return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	private static List<Sort.Order> convertSort(String[] sort) {
-		List<Sort.Order> orders = new ArrayList<>();
-		if (sort[0].contains(",")) {
-			for (String string : sort) {
-				String[] strings = string.split(",");
-				orders.add(new Sort.Order(Sort.Direction.fromString(strings[1]), strings[0]));
+	
+	
+	private String nombreColumna(String columna) {
+		// TODO Auto-generated method stub
+
+		String nombreColumna = null;
+		try {
+			
+			switch(columna)
+			{
+				case "idSolicitud" : nombreColumna="ID_SOLICITUD";			      
+				break; 
+				
+			   case "fecSolicitud" : nombreColumna="FEC_SOLICITUD";			      
+			      break; 
+
+			   case "umSolicitante" : nombreColumna="ID_UNIDAD_SOLICITANTE";			      
+			   break; 
+
+			   case "umfAdscripcion" : nombreColumna="ID_UNIDAD_ADSCRIPCION";			      
+			   break; 
+			   
+			   case "nombrePaciente":nombreColumna="DES_NOM_PACIENTE";			       
+			      break;
+
+			   case "desnsPaciente":nombreColumna="DES_NSS_PACIENTE";			       
+			   break;
+			      			    
+			   default : 
+			     nombreColumna="ID_SOLICITUD";
 			}
-		} else {
-			orders.add(new Sort.Order(Sort.Direction.fromString(sort[1]), sort[0]));
+			 
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
-		return orders;
+
+		return nombreColumna;
 	}
 	
 	@GetMapping("/{idTraslado}")
 	public ResponseEntity<Respuesta<?>>consultarTraslado(@PathVariable Integer idTraslado ){
-		Respuesta<?> response = trasladoServiceImpl.consultaPorId(idTraslado);
+		Respuesta<?> response = new Respuesta<>();
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (usuario.equals("denegado")) {
+			response.setError(false);
+			response.setCodigo(HttpStatus.UNAUTHORIZED.value());
+			response.setMensaje(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		Gson gson = new Gson();
+		DatosUsuarioDTO datosUsuarios = gson.fromJson(usuario, DatosUsuarioDTO.class);
+		response = trasladoServiceImpl.consultaPorId(idTraslado);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
@@ -122,7 +178,16 @@ public class TrasladosController {
 	@DeleteMapping("/{idSolicitud}")
 	public ResponseEntity<Respuesta<?>> eliminarSolicituda(@PathVariable Integer idSolicitud) {
 		Respuesta<?> response = new Respuesta<>();
-		response = trasladoServiceImpl.eliminarTraslado(idSolicitud);
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (usuario.equals("denegado")) {
+			response.setError(false);
+			response.setCodigo(HttpStatus.UNAUTHORIZED.value());
+			response.setMensaje(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		Gson gson = new Gson();
+		DatosUsuarioDTO datosUsuarios = gson.fromJson(usuario, DatosUsuarioDTO.class);
+		response = trasladoServiceImpl.eliminarTraslado(idSolicitud,datosUsuarios.getMatricula());
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	

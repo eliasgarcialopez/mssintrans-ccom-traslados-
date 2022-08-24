@@ -21,7 +21,7 @@ public class TrasladosTablaRespuesta {
 	@JsonProperty
 	private String umfAdscripcion;
 	@JsonProperty
-	private String nombrePaciente;
+	private String desNomPaciente;
 	@JsonProperty
 	private String desnsPaciente;
 }

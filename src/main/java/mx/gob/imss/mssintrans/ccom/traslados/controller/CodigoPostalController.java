@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+
+import mx.gob.imss.mssintrans.ccom.traslados.dto.DatosUsuarioDTO;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.service.impl.CodigoPostalServiceImpl;
 
@@ -32,7 +36,18 @@ public class CodigoPostalController {
 	
 	@GetMapping("/{cveCodigoPostal}")
 	public ResponseEntity<Respuesta<?>> consultarPorCodigoPostal(@PathVariable String cveCodigoPostal) {
-		Respuesta<?> response = codigoPostalServiceImpl.consultaGeneral(cveCodigoPostal);
+		Respuesta<?> response = new Respuesta<>();
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (usuario.equals("denegado")) {
+			response.setError(false);
+			response.setCodigo(HttpStatus.UNAUTHORIZED.value());
+			response.setMensaje(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		Gson gson = new Gson();
+		DatosUsuarioDTO datosUsuarios = gson.fromJson(usuario, DatosUsuarioDTO.class);
+
+		response = codigoPostalServiceImpl.consultaGeneral(cveCodigoPostal);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
@@ -51,4 +66,14 @@ public class CodigoPostalController {
 		});
 		return response;
 	}
+	
+	public Respuesta<?> denegado( String usuario ){
+
+        Respuesta<?> response = new Respuesta<>();
+        response.setError(false);
+        response.setCodigo(HttpStatus.UNAUTHORIZED.value());
+        response.setMensaje(usuario);
+
+        return response;
+    }
 }
