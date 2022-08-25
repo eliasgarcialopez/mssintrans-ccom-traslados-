@@ -23,10 +23,10 @@ public class CenDocEntity {
 	@Column(name = "ID_CENSO", unique = false, nullable = true) 
 	private Integer idCenso;
 	
-	@Column(name = "MATRICULA_DOCTOR", unique = false, nullable = true) 
+	@Column(name = "CVE_MATRICULA_DOCTOR", unique = false, nullable = true) 
 	private String matriculaDoctor;
 	
-	@Column(name = "NOMBRE_DOCTOR", unique = false, nullable = true) 
+	@Column(name = "NOM_DOCTOR", unique = false, nullable = true) 
 	private String nombreDoctor;
 	
 	@Column(name = "ID_UNIDAD", unique = false, nullable = true) 

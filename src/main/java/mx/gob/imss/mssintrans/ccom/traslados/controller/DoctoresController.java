@@ -259,5 +259,36 @@ public class DoctoresController {
 		response = cenDocService.eliminar(idCenso);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+	
+	@GetMapping("/matricula/siap/{matricula}")
+	public ResponseEntity<?> obtenerSiapMatricula(@PathVariable String matricula) {
+		
+		Respuesta<?> response;
+		
+		/**
+		 * Validacion de seguridad del usuario
+		 */
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if (usuario.equals("denegado")) {
+			response = denegado(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		
+		/**
+		 * Llamado al funcionamiento del servicio
+		 */
+		
+		response = siapService.buscarSiapPorMat(matricula);
+		ResponseEntity<?> responseEntity;
+		
+		if(response.isError()) {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		}else {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		
+		return responseEntity;
+	}
 
 }
