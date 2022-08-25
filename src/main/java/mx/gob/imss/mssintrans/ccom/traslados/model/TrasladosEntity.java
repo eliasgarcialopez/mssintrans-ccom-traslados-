@@ -133,7 +133,7 @@ public class TrasladosEntity {
 	@Column(name = "TEL_FAMILIAR", unique = false, nullable = true)
 	private Integer telFamiliar;
 	
-	@Column(name = "NUM_MATRICULA_DOCTOR_RECIBE", unique = false, nullable = true)
+	@Column(name = "CVE_MATRICULA_DOCTOR_RECIBE", unique = false, nullable = true)
 	private String numMatriculaRecibe;
 	
 	@Column(name = "NOMBRE_DOCTOR_RECIBE", unique = false, nullable = true)
@@ -142,7 +142,7 @@ public class TrasladosEntity {
 	@Column(name = "NUM_FOLIO_ACEPTACION", unique = false, nullable = true)
 	private String numFolioAceptacion;
 	
-	@Column(name = "NUM_MATRICULA_DOCTOR_AUTORIZA", unique = false, nullable = true)
+	@Column(name = "CVE_MATRICULA_DOCTOR_AUTORIZA", unique = false, nullable = true)
 	private String numMatriculaAutoriza;
 	
 	@Column(name = "NOMBRE_DOCTOR_AUTORIZA", unique = false, nullable = true)

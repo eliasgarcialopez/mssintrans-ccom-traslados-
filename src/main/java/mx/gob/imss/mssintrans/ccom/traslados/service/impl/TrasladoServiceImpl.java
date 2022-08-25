@@ -68,7 +68,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 			 }
 			 tablaResponse= TrasladosMapper.INSTANCE.formatLista(consultaGeneral.getContent());
 			
-			log.info("{}", consultaGeneral.getContent());
+			
 		} catch (Exception e) {
 			respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
 			respuesta.setError(true);
@@ -89,16 +89,26 @@ public class TrasladoServiceImpl implements TrasladoService {
 	public <T> Respuesta consultaPorId(Integer id) {
 		Respuesta<T> respuesta = new Respuesta<>();
 		TrasladoResponse trasladoResponse = null;
+		TrasladosEntity trasladosEntity =null;
 		try {
-			TrasladosEntity trasladosEntity = trasladosRepository.consultaPorId(id);
+			trasladosEntity = trasladosRepository.consultaPorId(id);
 			trasladoResponse= TrasladosMapper.INSTANCE.entityASJson(trasladosEntity);
-			log.info("traslado {}", trasladosEntity);
+			if(trasladosEntity == null) {
+				throw new Exception("No se encontro el traslado");
+			}
+			
 		} catch (Exception e) {
 			respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
 			respuesta.setError(true);
 			respuesta.setMensaje(e.getMessage());
 			return respuesta;
 		}
+		
+		trasladoResponse.setCodigoPostal(trasladosEntity.getCodigoPostal() == null ?"":trasladoResponse.getCodigoPostal());
+		trasladoResponse.setNomEstado(trasladosEntity.getNomEstado() == null ?"":trasladoResponse.getNomEstado());
+		trasladoResponse.setNomMunicipio(trasladosEntity.getNomMunicipio() == null ?"":trasladoResponse.getNomMunicipio());
+		trasladoResponse.setNumTelDestino(trasladosEntity.getNumTelDestino() == null ?0:trasladoResponse.getNumTelDestino());
+		
 		respuesta.setCodigo(HttpStatus.OK.value());
 		respuesta.setError(false);
 		respuesta.setMensaje("Exito");
@@ -117,6 +127,18 @@ public class TrasladoServiceImpl implements TrasladoService {
 			CenPasEntity cenPasEntity = new CenPasEntity();
 			CenDocEntity cenDoctorEntity = new CenDocEntity();
 			// traslados
+			if (traslado.getIdCodigoPostal() == 0) {
+				traslado.setIdCodigoPostal(null);
+			}
+			
+			if (traslado.getIdMunicipio() == 0) {
+				traslado.setIdMunicipio(null);
+			}
+
+			if (traslado.getNumTelDestino() == 0) {
+				traslado.setNumTelDestino(null);
+			}
+			
 			TrasladoEntity trasladoEntity = TrasladosMapper.INSTANCE.JsonAEntity(traslado);
 			trasladoEntity.setFecAlta(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
 			trasladoEntity.setIndActivo(1);
@@ -169,7 +191,11 @@ public class TrasladoServiceImpl implements TrasladoService {
 		
 		TrasladosEntity trasladosEntity = trasladosRepository.consultaPorId(nuevoTraslado.getIdSolicitud());
 		TrasladoResponse trasladoResponse = TrasladosMapper.INSTANCE.entityASJson(trasladosEntity);
-
+		trasladoResponse.setCodigoPostal(trasladosEntity.getCodigoPostal() == null ?"":trasladoResponse.getCodigoPostal());
+		trasladoResponse.setNomEstado(trasladosEntity.getNomEstado() == null ?"":trasladoResponse.getNomEstado());
+		trasladoResponse.setNomMunicipio(trasladosEntity.getNomMunicipio() == null ?"":trasladoResponse.getNomMunicipio());
+		trasladoResponse.setNumTelDestino(trasladosEntity.getNumTelDestino() == null ?0:trasladoResponse.getNumTelDestino());
+		
 		respuesta.setCodigo(HttpStatus.OK.value());
 		respuesta.setError(false);
 		respuesta.setMensaje("Exito");
@@ -262,7 +288,11 @@ public class TrasladoServiceImpl implements TrasladoService {
 		}
 		TrasladosEntity trasladosEntity = trasladosRepository.consultaPorId(actualizadoTraslado.getIdSolicitud());
 		TrasladoResponse trasladoResponse = TrasladosMapper.INSTANCE.entityASJson(trasladosEntity);
-
+		trasladoResponse.setCodigoPostal(trasladosEntity.getCodigoPostal() == null ?"":trasladoResponse.getCodigoPostal());
+		trasladoResponse.setNomEstado(trasladosEntity.getNomEstado() == null ?"":trasladoResponse.getNomEstado());
+		trasladoResponse.setNomMunicipio(trasladosEntity.getNomMunicipio() == null ?"":trasladoResponse.getNomMunicipio());
+		trasladoResponse.setNumTelDestino(trasladosEntity.getNumTelDestino() == null ?0:trasladoResponse.getNumTelDestino());
+		
 		respuesta.setCodigo(HttpStatus.OK.value());
 		respuesta.setError(false);
 		respuesta.setMensaje("Exito");
