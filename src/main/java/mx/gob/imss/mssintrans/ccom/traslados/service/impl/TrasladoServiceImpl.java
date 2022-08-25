@@ -127,15 +127,15 @@ public class TrasladoServiceImpl implements TrasladoService {
 			CenPasEntity cenPasEntity = new CenPasEntity();
 			CenDocEntity cenDoctorEntity = new CenDocEntity();
 			// traslados
-			if (traslado.getIdCodigoPostal() == 0) {
+			if (traslado.getIdCodigoPostal() == 0 || traslado.getIdCodigoPostal() == null) {
 				traslado.setIdCodigoPostal(null);
 			}
 			
-			if (traslado.getIdMunicipio() == 0) {
+			if (traslado.getIdMunicipio() == 0 || traslado.getIdMunicipio() == null) {
 				traslado.setIdMunicipio(null);
 			}
 
-			if (traslado.getNumTelDestino() == 0) {
+			if (traslado.getNumTelDestino() == 0 || traslado.getNumTelDestino() == null) {
 				traslado.setNumTelDestino(null);
 			}
 			
@@ -145,7 +145,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 			trasladoEntity.setIndSistema(1);
 			trasladoEntity.setCveMatricula(matricula);
 			nuevoTraslado = trasladoRepository.saveAndFlush(trasladoEntity);
-
+			
 			// censo paciente
 			if (cenPasRepository.consultaPorNss(nuevoTraslado.getDesnsPaciente()) == null) {
 				cenPasEntity.setFecAlta(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
@@ -256,7 +256,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 			busquedaTraslado.setFecActualizacion(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
 			busquedaTraslado.setCveMatricula(matricula);
 			actualizadoTraslado = trasladoRepository.save(busquedaTraslado);
-
+			
 			// censo doctores
 			if (cenDocRepository.consultaPorMat(busquedaTraslado.getNumMatriculaRecibe()) == null) {
 				cenDoctorEntity.setMatriculaDoctor(busquedaTraslado.getNumMatriculaRecibe());
