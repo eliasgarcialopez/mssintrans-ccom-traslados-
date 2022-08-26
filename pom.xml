@@ -77,21 +77,11 @@
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
             <version>6.19.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.lowagie</groupId>
-                    <artifactId>itext</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.olap4j</groupId>
-                    <artifactId>olap4j</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports-fonts</artifactId>
-            <version>6.0.0</version>
+            <version>6.19.1</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -103,8 +93,8 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
-		<dependency>
+		<!--suppress VulnerableLibrariesLocal -->
+        <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
@@ -214,14 +204,6 @@
         <repository>
             <id>central</id>
             <url>https://repo1.maven.org/maven2/</url>
-        </repository>
-        <repository>
-            <id>jasperreports</id>
-            <url>http://jasperreports.sourceforge.net/maven2</url>
-        </repository>
-        <repository>
-            <id>jaspersoft-third-party</id>
-            <url>http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/</url>
         </repository>
     </repositories>
 </project>
