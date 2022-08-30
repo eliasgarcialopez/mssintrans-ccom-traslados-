@@ -46,13 +46,13 @@ public interface CenDocRepository extends JpaRepository<CenDocEntity, Integer> {
 	@Query(value = ""
 			+ "SELECT	* "
 			+ "FROM		SINTRANST_CENSO_DOCTORES SCC "
-			+ "WHERE    SCC.MATRICULA_DOCTOR = ? "
+			+ "WHERE    SCC.CVE_MATRICULA_DOCTOR = ? "
 			+ "AND   	SCC.IND_ACTIVO 	= '1' "
 			+ "",
 			countQuery = ""
 					+ "SELECT	COUNT(*)"
 					+ "FROM		SINTRANST_CENSO_DOCTORES SCC "
-					+ "WHERE    SCC.MATRICULA_DOCTOR = ? "
+					+ "WHERE    SCC.CVE_MATRICULA_DOCTOR = ? "
 					+ "AND   	SCC.IND_ACTIVO 	= '1' "
 					+ "",
 			nativeQuery = true )

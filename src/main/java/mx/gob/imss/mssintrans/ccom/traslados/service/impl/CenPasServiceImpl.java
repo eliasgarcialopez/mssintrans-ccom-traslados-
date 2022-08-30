@@ -44,7 +44,7 @@ public class CenPasServiceImpl implements CenPasService {
 		
 		try {
 			
-			log.info("Creando Nuevo Censo de Doctores");
+			log.info("Creando Nuevo Censo de Pacientes");
 			
 			cenPasEntity = cenPasRepository.saveAndFlush(cenPasEntity);
 			
@@ -73,6 +73,8 @@ public class CenPasServiceImpl implements CenPasService {
 		
 		try {
 			
+			log.info("Actualizando Censo de Pacientes");
+			
 			cenPasRepository.actualizar(cenPasEntity.getDesEstatus(), cenPasEntity.getLunes(),
 					cenPasEntity.getMartes(), cenPasEntity.getMiercoles(), cenPasEntity.getJueves(), cenPasEntity.getViernes(),
 					cenPasEntity.getSabado(), cenPasEntity.getDomingo(), cenPasEntity.getCveMatricula(), cenPasEntity.getIdCenso());
@@ -100,6 +102,8 @@ public class CenPasServiceImpl implements CenPasService {
 		CenPasEntity cenPasEntity;
 		
 		try {
+			
+			log.info("Consultando por Id en Censo de Pacientes: " + idCenso);
 			
 			cenPasEntity = cenPasRepository.consultaPorId(idCenso);
 			
@@ -135,6 +139,8 @@ public class CenPasServiceImpl implements CenPasService {
 		
 		try {
 			
+			log.info("Eliminando en Censo de Pacientes: " + idCenso);
+			
 			cenPasRepository.eliminar(idCenso);
 			cenPasRepository.flush();
 			
@@ -159,6 +165,8 @@ public class CenPasServiceImpl implements CenPasService {
 		CenPasEntity cenPasEntity;
 		
 		try {
+			
+			log.info("Consultando Censo de Pacientes por NSS: " + desNss);
 			
 			cenPasEntity = cenPasRepository.consultaPorNss(desNss);
 			

@@ -7,10 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import mx.gob.imss.mssintrans.ccom.traslados.dto.Empleado;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.EmpleadoResponse;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.model.CenDocEntity;
 import mx.gob.imss.mssintrans.ccom.traslados.repository.CenDocRepository;
+import mx.gob.imss.mssintrans.ccom.traslados.service.ConsultaMatriculaService;
 import mx.gob.imss.mssintrans.ccom.traslados.service.SiapService;
 import mx.gob.imss.mssintrans.ccom.traslados.util.CenDocMapper;
 
@@ -20,6 +22,9 @@ public class SiapServiceImpl implements SiapService {
 	
 	@Autowired
 	private CenDocRepository cenDocRepository;
+	
+	@Autowired
+	private ConsultaMatriculaService consultaMatriculaService;
 
 	@Override
 	public Respuesta<EmpleadoResponse> buscarPorMat(String matricula) {
@@ -60,6 +65,30 @@ public class SiapServiceImpl implements SiapService {
 		respuesta.setError(false);
 		respuesta.setMensaje("Exito");
 		respuesta.setDatos(lista);
+		
+		return respuesta;
+	}
+
+	@Override
+	public Respuesta<Empleado> buscarSiapPorMat(String matricula) {
+		Respuesta<Empleado> respuesta = new Respuesta<>();
+		Empleado empleado = new Empleado();
+		
+		empleado = consultaMatriculaService.consultaMatricula(matricula);
+		
+		log.info("Resultado: " + empleado);
+		
+		if(empleado==null) {
+			respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
+			respuesta.setError(true);
+			respuesta.setMensaje("Doctor no encontrado en el Siap.");
+			return respuesta;
+		}
+		
+		respuesta.setCodigo(HttpStatus.OK.value());
+		respuesta.setError(false);
+		respuesta.setMensaje("Exito");
+		respuesta.setDatos(empleado);
 		
 		return respuesta;
 	}
