@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ConsultaMatriculaCliente {
 	
-	@Value("${endpoints.siap}")
+	@Value("${endpoints.siap-endpoint}")
     private String urlSiap;
 
     public ConsultaMatriculaResponse.ConsultaMatriculaResult consultaNss(String matricula) {

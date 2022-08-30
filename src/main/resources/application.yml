@@ -40,14 +40,17 @@ logging:
     org.springframework.web: info
     org.hibernate: error
     mx.gob.imss.mssintetrans.vehiculos: error
-    
+
+logos:
+  logo-imss: ${msit_LOGO_IMSS}
+  logo-sistema: ${msit_LOGO_SISTEMA}
 endpoints:
-  carga-archivos-endpoint: "http://localhost:8086/mssintrans-carga-archivos"
-  siap: "http://10.100.6.60/ServiciosWebSIT/wsConsultaSIT.asmx?WSDL"
+  carga-archivos-endpoint: ${msit_SINTRANS_CARGA}
+  siap-endpoint: ${msit_SINTRANS_SIAP}
   
 archivos:
   agrupador-siniestro: "SINIESTRO"
 
 jwt:
-  secretkey: funcionamuybien
+  secretkey: ${msit_SECRET_KEY}
     
