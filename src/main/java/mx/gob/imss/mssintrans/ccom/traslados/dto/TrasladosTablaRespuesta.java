@@ -17,6 +17,8 @@ public class TrasladosTablaRespuesta {
 	@JsonProperty
 	private String fecSolicitud;
 	@JsonProperty
+	private String timTransmision;
+	@JsonProperty
 	private String umSolicitante;
 	@JsonProperty
 	private String umfAdscripcion;
