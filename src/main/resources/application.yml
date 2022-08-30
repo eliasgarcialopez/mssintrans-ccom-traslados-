@@ -10,9 +10,9 @@ spring:
   datasource:
     platform: mariadb
     driverClassName: org.mariadb.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/SITCDQA
-    username: pmsoluciones
-    password: Tr1357.*
+    url: ${msit_CONNECTION_DB}
+    username: ${msit_USERNAME_DB}
+    password: ${msit_PASSWORD_DB}
     timeBetweenEvictionRunsMillis: 1000
     testWhileIdle: true
     validationQuery: SELECT 1
