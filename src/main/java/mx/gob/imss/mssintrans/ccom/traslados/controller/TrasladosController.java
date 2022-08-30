@@ -100,6 +100,9 @@ public class TrasladosController {
 			   case "fecSolicitud" : nombreColumna="FEC_SOLICITUD";			      
 			      break; 
 
+			   case "timTransmision" : nombreColumna="TIM_SOLICITUD";			      
+			   break; 
+
 			   case "umSolicitante" : nombreColumna="ID_UNIDAD_SOLICITANTE";			      
 			   break; 
 
