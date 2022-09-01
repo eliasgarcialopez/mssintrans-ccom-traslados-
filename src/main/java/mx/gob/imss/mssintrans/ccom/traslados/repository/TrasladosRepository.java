@@ -22,7 +22,7 @@ public interface TrasladosRepository extends JpaRepository<TrasladosEntity, Inte
 			+ "LEFT  	JOIN SINTRANST_CENSO_DOCTORES SDR ON SDR.CVE_MATRICULA_DOCTOR = SST.CVE_MATRICULA_DOCTOR_RECIBE                                  "			
 			+ "LEFT  	JOIN SINTRANST_CENSO_DOCTORES SDA ON SDA.CVE_MATRICULA_DOCTOR = SST.CVE_MATRICULA_DOCTOR_AUTORIZA                                  "			
 			+ "LEFT  	JOIN SINTRANSC_ENTIDADES SE ON SE.ID_ENTIDAD = SM.ID_ENTIDAD                                        "			
-			+ "WHERE   	SST.IND_ACTIVO 	= '1'                                                                            "
+			+ "WHERE   	SST.IND_ACTIVO 	= '1' AND SST.DES_ESTATUS_SOLICITUD IN ('1','2','3')                                                                           "
 			+ "",
 			countQuery =""
 					+ "SELECT	COUNT(SST.ID_SOLICITUD) "
@@ -34,7 +34,7 @@ public interface TrasladosRepository extends JpaRepository<TrasladosEntity, Inte
 					+ "LEFT    JOIN SINTRANST_CENSO_DOCTORES SDR ON SDR.CVE_MATRICULA_DOCTOR = SST.CVE_MATRICULA_DOCTOR_RECIBE                                  "			
 					+ "LEFT    JOIN SINTRANST_CENSO_DOCTORES SDA ON SDA.CVE_MATRICULA_DOCTOR = SST.CVE_MATRICULA_DOCTOR_AUTORIZA                                  "			
 					+ "LEFT  	JOIN SINTRANSC_ENTIDADES SE ON SE.ID_ENTIDAD = SM.ID_ENTIDAD                                        "			
-					+ "WHERE   	SST.IND_ACTIVO 	= '1'                                                                            "
+					+ "WHERE   	SST.IND_ACTIVO 	= '1'   AND SST.DES_ESTATUS_SOLICITUD IN ('1','2','3')                                                                           "
 					+ "",
 			nativeQuery = true )
 	Page<TrasladosEntity>consultaGeneral(Pageable paginado);
@@ -50,7 +50,7 @@ public interface TrasladosRepository extends JpaRepository<TrasladosEntity, Inte
 			+ "LEFT 	JOIN SINTRANST_CENSO_DOCTORES SDA ON SDA.CVE_MATRICULA_DOCTOR = SST.CVE_MATRICULA_DOCTOR_AUTORIZA                                  "			
 			+ "LEFT 	JOIN SINTRANSC_ENTIDADES SE ON SE.ID_ENTIDAD = SM.ID_ENTIDAD                                        "			
 			//+ "INNER 	JOIN SINTRANSC_USUARIOS STA ON STA.CVE_MATRICULA = SST.CVE_MATRICULA                                        "			
-			+ "WHERE   	SST.IND_ACTIVO 	= '1'  AND SAS.ID_OOAD = ?                                                                          "
+			+ "WHERE   	SST.IND_ACTIVO 	= '1'  AND SAS.ID_OOAD = ?     AND SST.DES_ESTATUS_SOLICITUD IN ('1','2','3')                                                                       "
 			+ "",
 			countQuery =""
 					+ "SELECT	COUNT(SST.ID_SOLICITUD) "
@@ -63,7 +63,7 @@ public interface TrasladosRepository extends JpaRepository<TrasladosEntity, Inte
 					+ "LEFT 	JOIN SINTRANST_CENSO_DOCTORES SDA ON SDA.CVE_MATRICULA_DOCTOR = SST.CVE_MATRICULA_DOCTOR_AUTORIZA                                  "			
 					+ "LEFT 	JOIN SINTRANSC_ENTIDADES SE ON SE.ID_ENTIDAD = SM.ID_ENTIDAD                                        "			
 				//	+ "INNER 	JOIN SINTRANSC_USUARIOS STA ON STA.CVE_MATRICULA = SST.CVE_MATRICULA                                        "			
-					+ "WHERE   	SST.IND_ACTIVO 	= '1'  AND SAS.ID_OOAD = ?                                                                          "
+					+ "WHERE   	SST.IND_ACTIVO 	= '1'  AND SAS.ID_OOAD = ?  AND SST.DES_ESTATUS_SOLICITUD IN ('1','2','3')                                                                          "
 					+ "",
 			nativeQuery = true )
 	Page<TrasladosEntity>consultaGeneralOOAD(Pageable paginado,Integer ooad);
