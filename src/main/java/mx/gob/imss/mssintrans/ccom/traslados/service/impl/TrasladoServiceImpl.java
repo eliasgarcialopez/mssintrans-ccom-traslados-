@@ -107,7 +107,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 		trasladoResponse.setCodigoPostal(trasladosEntity.getCodigoPostal() == null ?"":trasladoResponse.getCodigoPostal());
 		trasladoResponse.setNomEstado(trasladosEntity.getNomEstado() == null ?"":trasladoResponse.getNomEstado());
 		trasladoResponse.setNomMunicipio(trasladosEntity.getNomMunicipio() == null ?"":trasladoResponse.getNomMunicipio());
-		trasladoResponse.setNumTelDestino(trasladosEntity.getNumTelDestino() == null ?0:trasladoResponse.getNumTelDestino());
+		//trasladoResponse.setNumTelDestino(trasladosEntity.getNumTelDestino() == null ?0:trasladoResponse.getNumTelDestino());
 		
 		respuesta.setCodigo(HttpStatus.OK.value());
 		respuesta.setError(false);
@@ -135,9 +135,9 @@ public class TrasladoServiceImpl implements TrasladoService {
 				traslado.setIdMunicipio(null);
 			}
 
-			if (traslado.getNumTelDestino() == 0 || traslado.getNumTelDestino() == null) {
+			/*if (traslado.getNumTelDestino() == 0 || traslado.getNumTelDestino() == null) {
 				traslado.setNumTelDestino(null);
-			}
+			}*/
 			
 			TrasladoEntity trasladoEntity = TrasladosMapper.INSTANCE.JsonAEntity(traslado);
 			trasladoEntity.setFecAlta(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
@@ -194,7 +194,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 		trasladoResponse.setCodigoPostal(trasladosEntity.getCodigoPostal() == null ?"":trasladoResponse.getCodigoPostal());
 		trasladoResponse.setNomEstado(trasladosEntity.getNomEstado() == null ?"":trasladoResponse.getNomEstado());
 		trasladoResponse.setNomMunicipio(trasladosEntity.getNomMunicipio() == null ?"":trasladoResponse.getNomMunicipio());
-		trasladoResponse.setNumTelDestino(trasladosEntity.getNumTelDestino() == null ?0:trasladoResponse.getNumTelDestino());
+		//trasladoResponse.setNumTelDestino(trasladosEntity.getNumTelDestino() == null ?0:trasladoResponse.getNumTelDestino());
 		
 		respuesta.setCodigo(HttpStatus.OK.value());
 		respuesta.setError(false);
@@ -291,7 +291,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 		trasladoResponse.setCodigoPostal(trasladosEntity.getCodigoPostal() == null ?"":trasladoResponse.getCodigoPostal());
 		trasladoResponse.setNomEstado(trasladosEntity.getNomEstado() == null ?"":trasladoResponse.getNomEstado());
 		trasladoResponse.setNomMunicipio(trasladosEntity.getNomMunicipio() == null ?"":trasladoResponse.getNomMunicipio());
-		trasladoResponse.setNumTelDestino(trasladosEntity.getNumTelDestino() == null ?0:trasladoResponse.getNumTelDestino());
+		//trasladoResponse.setNumTelDestino(trasladosEntity.getNumTelDestino() == null ?0:trasladoResponse.getNumTelDestino());
 		
 		respuesta.setCodigo(HttpStatus.OK.value());
 		respuesta.setError(false);

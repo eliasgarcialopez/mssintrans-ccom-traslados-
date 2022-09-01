@@ -106,13 +106,13 @@ public class TrasladoEntity {
 	private String desReferencia;
 	
 	@Column(name = "NUM_TEL_DESTINO", unique = false, nullable = true)
-	private Integer numTelDestino;
+	private String numTelDestino;
 	
 	@Column(name = "NOM_FAMILIAR", unique = false, nullable = true)
 	private String nomFamiliar;
 	
 	@Column(name = "TEL_FAMILIAR", unique = false, nullable = true)
-	private Integer telFamiliar;
+	private String telFamiliar;
 	
 	@Column(name = "CVE_MATRICULA_DOCTOR_RECIBE", unique = false, nullable = true)
 	private String numMatriculaRecibe;

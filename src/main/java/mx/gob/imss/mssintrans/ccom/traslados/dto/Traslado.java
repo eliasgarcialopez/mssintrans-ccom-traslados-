@@ -36,9 +36,9 @@ public class Traslado {
 	private String numExterior;
 	private String numInterior;
 	private String desReferencia;
-	private Integer numTelDestino;
+	private String numTelDestino;
 	private String nomFamiliar;
-	private Integer telFamiliar;
+	private String telFamiliar;
 	private String numMatriculaRecibe;
 	private String desNomDoctorRecibe;
 	private String numFolioAceptacion;
