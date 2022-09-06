@@ -55,5 +55,5 @@ jwt:
   secretkey: ${msit_SECRET_KEY}
   
 application:
-  id: SINTRANS
+  id: 54
     
