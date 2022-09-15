@@ -18,7 +18,7 @@ public interface CenDocRepository extends JpaRepository<CenDocEntity, Integer> {
 			+ "		ID_UNIDAD=?, "
 			+ "		DES_ESTATUS=?, "
 			+ "		CVE_MATRICULA=?, "
-			+ "		FEC_ACTUALIZACION=CURRENT_DATE() "
+			+ "		FEC_ACTUALIZACION = NOW() "
 			+ " "
 			+ "WHERE 	ID_CENSO=?"
 			,nativeQuery = true )
@@ -75,7 +75,7 @@ public interface CenDocRepository extends JpaRepository<CenDocEntity, Integer> {
 	@Query(value = ""
 			+ "UPDATE SINTRANST_CENSO_DOCTORES "
 			+ "SET	"
-			+ "FEC_BAJA	= CURRENT_DATE(), "
+			+ "FEC_BAJA	= NOW(), "
 			+ "IND_ACTIVO = 0 "
 			+ "WHERE IND_ACTIVO = '1' "
 			+ "AND ID_CENSO = ? "

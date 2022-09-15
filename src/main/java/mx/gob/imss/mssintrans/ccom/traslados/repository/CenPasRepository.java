@@ -22,7 +22,7 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			+ "		IND_SABADO=?, "
 			+ "		IND_DOMINGO=?, "
 			+ "		CVE_MATRICULA=?, "
-			+ "		FEC_ACTUALIZACION=CURRENT_DATE() "
+			+ "		FEC_ACTUALIZACION = NOW() "
 			+ " "
 			+ "WHERE 	ID_CENSO=?"
 			,nativeQuery = true )
@@ -57,7 +57,7 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 	@Query(value = ""
 			+ "UPDATE SINTRANST_CENSO_PACIENTES "
 			+ "SET	"
-			+ "FEC_BAJA	= CURRENT_DATE(), "
+			+ "FEC_BAJA	= NOW(), "
 			+ "IND_ACTIVO = 0 "
 			+ "WHERE IND_ACTIVO = '1' "
 			+ "AND ID_CENSO = ? "
