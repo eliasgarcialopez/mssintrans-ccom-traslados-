@@ -48,4 +48,5 @@ public class TrasladoResponse {
 	private String desNomDoctorAutoriza;
 	private String desEstatusSolicitud;
 	private String desmotivoCancelacion;
+	private String desMunicipio;
 }

@@ -145,5 +145,8 @@ public class TrasladoEntity {
 	private Integer indActivo;
 
 	@Column(name = "IND_SISTEMA", unique = false, nullable = true)
-	private Integer indSistema; 
+	private Integer indSistema;
+
+	@Column(name = "DES_MUNICIPIO", unique = false, nullable = true)
+	private String desMunicipio;
 }

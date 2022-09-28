@@ -46,6 +46,7 @@ public class Traslado {
 	private String desNomDoctorAutoriza;
 	private String desEstatusSolicitud;
 	private String desmotivoCancelacion;
+	private String desMunicipio;
 	//private String cveMatricula;
 
 }

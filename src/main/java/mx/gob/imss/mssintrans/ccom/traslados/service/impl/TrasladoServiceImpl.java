@@ -255,6 +255,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 			busquedaTraslado.setNumMatriculaAutoriza(traslado.getNumMatriculaAutoriza());
 			busquedaTraslado.setFecActualizacion(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
 			busquedaTraslado.setCveMatricula(matricula);
+			busquedaTraslado.setDesMunicipio(traslado.getDesMunicipio());
 			actualizadoTraslado = trasladoRepository.save(busquedaTraslado);
 			
 			// censo doctores
