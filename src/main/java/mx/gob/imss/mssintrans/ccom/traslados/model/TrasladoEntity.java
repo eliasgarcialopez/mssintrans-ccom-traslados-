@@ -156,7 +156,7 @@ public class TrasladoEntity {
 	@Column(name = "DES_CIUDAD", unique = false, nullable = true)
 	private String desCiudad;
 
-	@Column(name = "CVE_COD_POSTAL", unique = false, nullable = true)
+	@Column(name = "CVE_COD_POSTAL", insertable = false, updatable = false)
 	private String cveCodPostal;
 
 	@Column(name = "DES_FIRMA", unique = false, nullable = true)
