@@ -174,5 +174,16 @@ public class TrasladosEntity {
 
 	@Column(name = "DES_MUNICIPIO", unique = false, nullable = true)
 	private String desMunicipio;
-	
+
+	@Column(name = "DES_ESTADO", unique = false, nullable = true)
+	private String desEstado;
+
+	@Column(name = "DES_CIUDAD", unique = false, nullable = true)
+	private String desCiudad;
+
+	@Column(name = "CVE_COD_POSTAL", unique = false, nullable = true)
+	private String cveCodPostal;
+
+	@Column(name = "DES_FIRMA", unique = false, nullable = true)
+	private String desFirma;
 }

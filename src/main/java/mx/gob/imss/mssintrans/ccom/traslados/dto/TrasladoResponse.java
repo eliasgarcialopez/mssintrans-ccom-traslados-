@@ -49,4 +49,8 @@ public class TrasladoResponse {
 	private String desEstatusSolicitud;
 	private String desmotivoCancelacion;
 	private String desMunicipio;
+	private String desEstado;
+	private String desCiudad;
+	private String cveCodPostal;
+	private String desFirma;
 }
