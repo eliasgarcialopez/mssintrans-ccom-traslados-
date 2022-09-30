@@ -62,11 +62,10 @@ public class TrasladoServiceImpl implements TrasladoService {
 		List<TrasladosTablaRespuesta> tablaResponse=null;
 		try {
 			consultaGeneral = trasladosRepository.consultaGeneralOOAD(pageable, idooad);
-			
-			 if(usuario.equals("Administrador")){ 
-				consultaGeneral = trasladosRepository.consultaGeneral(pageable);	
-			 }
-			 tablaResponse= TrasladosMapper.INSTANCE.formatLista(consultaGeneral.getContent());
+			if(usuario.equals("Administrador") || usuario.equals("Normativo") || idooad == 9 || idooad == 39 ){
+				consultaGeneral = trasladosRepository.consultaGeneral(pageable);
+			}
+			tablaResponse= TrasladosMapper.INSTANCE.formatLista(consultaGeneral.getContent());
 			
 			
 		} catch (Exception e) {

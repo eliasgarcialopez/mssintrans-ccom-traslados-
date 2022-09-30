@@ -24,9 +24,6 @@ import mx.gob.imss.mssintrans.ccom.traslados.dto.DatosUsuarioDTO;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.service.impl.CodigoPostalServiceImpl;
 
-//import mx.gob.imss.mssintetrans.unidades.dto.Respuesta;
-//import mx.gob.imss.mssintetrans.unidades.service.impl.CodigoPostalServiceImpl;
-
 @RestController
 @RequestMapping("/codigo-postal")
 @CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })

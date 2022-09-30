@@ -35,14 +35,11 @@ public class UnidadesServiceImpl implements UnidadesService{
 	Respuesta<T> respuesta = new Respuesta<>();
 	List<UnidadesEntity> unidadesEntity = new ArrayList<>();
 	try {
-		//siniestrosEntity = siniestroRepository.getId(id);
-		if (!usuario.getRol().equalsIgnoreCase("Administrador")) {
-			unidadesEntity=unidadesRepository.consultaPorOoad(usuario.getIDOOAD());
-		}else {
+		if(usuario.equals("Administrador") || usuario.equals("Normativo") || usuario.IDOOAD == 9 || usuario.IDOOAD  == 39 ){
 			unidadesEntity=unidadesRepository.consultaGeneral();
+		}else{
+			unidadesEntity=unidadesRepository.consultaPorOoad(usuario.getIDOOAD());
 		}
-		
-	
 		if (unidadesEntity.isEmpty()) {
 			throw new Exception("No se encontro el registro solicitado");
 		}
