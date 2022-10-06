@@ -14,5 +14,9 @@ public class EmpleadoResponse {
 	private String matriculaDoctor;
 	
 	private String nombreDoctor;
+	
+	private Integer idUnidad;
+	
+	private String desEstatus;
 
 }
