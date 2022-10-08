@@ -252,11 +252,14 @@ public class DoctoresController {
 			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 		}
 		
+		Gson gson = new Gson();
+		DatosUsuarioDTO datosUsuario = gson.fromJson(usuario, DatosUsuarioDTO.class);
+		
 		/**
 		 * Llamado al funcionamiento del servicio
 		 */
 		
-		response = cenDocService.eliminar(idCenso);
+		response = cenDocService.eliminar(idCenso, datosUsuario);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	

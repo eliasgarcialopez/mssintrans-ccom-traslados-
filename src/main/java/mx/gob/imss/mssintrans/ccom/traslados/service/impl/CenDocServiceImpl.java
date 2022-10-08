@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.CenDocResponse;
+import mx.gob.imss.mssintrans.ccom.traslados.dto.DatosUsuarioDTO;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.model.CenDocEntity;
 import mx.gob.imss.mssintrans.ccom.traslados.repository.CenDocRepository;
@@ -81,7 +82,6 @@ public class CenDocServiceImpl implements CenDocService {
 	@Override
 	public Respuesta<CenDocResponse> actualizar(CenDocEntity cenDocEntity) {
 		Respuesta<CenDocResponse> respuesta = new Respuesta<>();
-		
 		try {
 			
 			CenDocEntity registro = cenDocRepository.consultaPorMat(cenDocEntity.getCveMatricula());
@@ -102,9 +102,6 @@ public class CenDocServiceImpl implements CenDocService {
 				respuesta.setMensaje("Matricula repetida, el medico ya existe");
 				
 			}
-			
-			
-			
 		} catch (Exception e) {
 			 log.error("Ha ocurrido un error al actualizar el mantenimiento", e.getMessage());
 			respuesta.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -150,12 +147,10 @@ public class CenDocServiceImpl implements CenDocService {
 
 	@Transactional(rollbackOn = SQLException.class)
 	@Override
-	public Respuesta<CenDocResponse> eliminar(Integer idCenso) {
+	public Respuesta<CenDocResponse> eliminar(Integer idCenso, DatosUsuarioDTO datosUsuario) {
 		Respuesta<CenDocResponse> respuesta = new Respuesta<>();
-		
 		try {
-			
-			cenDocRepository.eliminar(idCenso);
+			cenDocRepository.eliminar(datosUsuario.getMatricula(), idCenso);
 			cenDocRepository.flush();
 			
 			respuesta.setCodigo(HttpStatus.OK.value());

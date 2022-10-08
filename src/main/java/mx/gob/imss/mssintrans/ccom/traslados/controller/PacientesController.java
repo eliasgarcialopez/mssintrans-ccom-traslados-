@@ -180,11 +180,14 @@ public class PacientesController {
 			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 		}
 		
+		Gson gson = new Gson();
+		DatosUsuarioDTO datosUsuario = gson.fromJson(usuario, DatosUsuarioDTO.class);
+		
 		/**
 		 * Llamado al funcionamiento del servicio
 		 */
 		
-		response = cenPasService.eliminar(idCenso);
+		response = cenPasService.eliminar(idCenso, datosUsuario);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	

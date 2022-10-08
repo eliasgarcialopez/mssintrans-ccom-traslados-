@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.CenPasResponse;
+import mx.gob.imss.mssintrans.ccom.traslados.dto.DatosUsuarioDTO;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.model.CenPasEntity;
 import mx.gob.imss.mssintrans.ccom.traslados.repository.CenPasRepository;
@@ -68,9 +69,7 @@ public class CenPasServiceImpl implements CenPasService {
 	@Transactional(rollbackOn = SQLException.class)
 	@Override
 	public Respuesta<CenPasResponse> actualizar(CenPasEntity cenPasEntity) {
-
 		Respuesta<CenPasResponse> respuesta = new Respuesta<>();
-		
 		try {
 			
 			log.info("Actualizando Censo de Pacientes");
@@ -134,14 +133,12 @@ public class CenPasServiceImpl implements CenPasService {
 
 	@Transactional(rollbackOn = SQLException.class)
 	@Override
-	public Respuesta<CenPasResponse> eliminar(Integer idCenso) {
+	public Respuesta<CenPasResponse> eliminar(Integer idCenso, DatosUsuarioDTO datosUsuario ) {
 		Respuesta<CenPasResponse> respuesta = new Respuesta<>();
-		
 		try {
-			
 			log.info("Eliminando en Censo de Pacientes: " + idCenso);
 			
-			cenPasRepository.eliminar(idCenso);
+			cenPasRepository.eliminar(datosUsuario.getMatricula(), idCenso);
 			cenPasRepository.flush();
 			
 			respuesta.setCodigo(HttpStatus.OK.value());

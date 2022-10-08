@@ -17,7 +17,7 @@ public interface CenDocRepository extends JpaRepository<CenDocEntity, Integer> {
 			+ "SET 	 "
 			+ "		ID_UNIDAD=?, "
 			+ "		DES_ESTATUS=?, "
-			+ "		CVE_MATRICULA=?, "
+			+ "		CVE_MATRICULA_MODIFICA=?, "
 			+ "		FEC_ACTUALIZACION = NOW() "
 			+ " "
 			+ "WHERE 	ID_CENSO=?"
@@ -25,7 +25,7 @@ public interface CenDocRepository extends JpaRepository<CenDocEntity, Integer> {
 	void actualizar (
 			Integer idUnidad,
 			String desEstatus,
-			String cveMatricula,
+			String cveMatriculaModifica,
 			Integer idCenso );
 	
 	@Query(value = ""
@@ -75,10 +75,11 @@ public interface CenDocRepository extends JpaRepository<CenDocEntity, Integer> {
 	@Query(value = ""
 			+ "UPDATE SINTRANST_CENSO_DOCTORES "
 			+ "SET	"
+			+ "CVE_MATRICULA_BAJA = ?, "
 			+ "FEC_BAJA	= NOW(), "
 			+ "IND_ACTIVO = 0 "
 			+ "WHERE IND_ACTIVO = '1' "
 			+ "AND ID_CENSO = ? "
 			,nativeQuery = true )
-	void eliminar ( int id );
+	void eliminar (String cveMatriculaBaja, Integer id );
 }

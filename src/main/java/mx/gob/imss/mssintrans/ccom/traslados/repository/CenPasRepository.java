@@ -21,7 +21,7 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			+ "		IND_VIERNES=?, "
 			+ "		IND_SABADO=?, "
 			+ "		IND_DOMINGO=?, "
-			+ "		CVE_MATRICULA=?, "
+			+ "		CVE_MATRICULA_MODIFICA=?, "
 			+ "		FEC_ACTUALIZACION = NOW() "
 			+ " "
 			+ "WHERE 	ID_CENSO=?"
@@ -35,7 +35,7 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			Integer viernes,
 			Integer sabado,
 			Integer domingo,
-			String cveMatricula,
+			String cveMatriculaModifica,
 			Integer idCenso );
 	
 	@Query(value = ""
@@ -57,12 +57,13 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 	@Query(value = ""
 			+ "UPDATE SINTRANST_CENSO_PACIENTES "
 			+ "SET	"
+			+ "CVE_MATRICULA_BAJA = ?, "
 			+ "FEC_BAJA	= NOW(), "
 			+ "IND_ACTIVO = 0 "
 			+ "WHERE IND_ACTIVO = '1' "
 			+ "AND ID_CENSO = ? "
 			,nativeQuery = true )
-	void eliminar ( int id );
+	void eliminar (String cveMatriculaBaja, Integer id);
 	
 	@Query(value = ""
 			+ "SELECT	* "
