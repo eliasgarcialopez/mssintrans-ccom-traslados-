@@ -21,5 +21,7 @@ public interface CenDocMapper {
 	EmpleadoResponse entityAMat(CenDocEntity cenDocEntity);
 	
 	List<EmpleadoResponse> entityAMat(List<CenDocEntity> cenDocEntity);
+	
+	List<CenDocResponse> entityAResponse(List<CenDocEntity> cenDocEntity);
 
 }
