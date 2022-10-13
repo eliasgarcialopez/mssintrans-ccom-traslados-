@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import mx.gob.imss.mssintrans.ccom.traslados.dto.CenDocResponse;
+import mx.gob.imss.mssintrans.ccom.traslados.dto.CensoDoctoresResponse;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.EmpleadoResponse;
 import mx.gob.imss.mssintrans.ccom.traslados.model.CenDocEntity;
 
@@ -22,6 +23,5 @@ public interface CenDocMapper {
 	
 	List<EmpleadoResponse> entityAMat(List<CenDocEntity> cenDocEntity);
 	
-	List<CenDocResponse> entityAResponse(List<CenDocEntity> cenDocEntity);
-
+	CensoDoctoresResponse entityToResponse(CenDocEntity cenDocEntity);
 }
