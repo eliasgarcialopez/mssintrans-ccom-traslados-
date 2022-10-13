@@ -1,6 +1,11 @@
 package mx.gob.imss.mssintrans.ccom.traslados.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +26,8 @@ import mx.gob.imss.mssintrans.ccom.traslados.dto.DatosUsuarioDTO;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.model.CenPasEntity;
 import mx.gob.imss.mssintrans.ccom.traslados.service.CenPasService;
+import mx.gob.imss.mssintrans.ccom.traslados.dto.CenPasResponse;
+import org.springframework.data.domain.Page;
 
 @Slf4j
 @RestController
@@ -180,11 +187,13 @@ public class PacientesController {
 			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 		}
 		
+		Gson gson = new Gson();
+		DatosUsuarioDTO datosUsuarios = gson.fromJson(usuario, DatosUsuarioDTO.class);
 		/**
 		 * Llamado al funcionamiento del servicio
 		 */
 		
-		response = cenPasService.eliminar(idCenso);
+		response = cenPasService.eliminar(idCenso, datosUsuarios.matricula);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
@@ -218,6 +227,51 @@ public class PacientesController {
 		}
 		
 		return responseEntity;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping("/buscar")
+	public ResponseEntity<Respuesta<?>> consulta(@RequestParam(value = "pagina", defaultValue = "0") int pagina,
+			@RequestParam(value = "sort", defaultValue = "desc") String sort, 
+			@RequestParam(value = "columna", defaultValue = "id") String columna) {
+		
+		Respuesta<List<CenPasResponse>> response = new Respuesta<>();
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (usuario.equals("denegado")) {
+			response.setError(false);
+			response.setCodigo(HttpStatus.UNAUTHORIZED.value());
+			response.setMensaje(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		
+		Gson gson = new Gson();
+		DatosUsuarioDTO datosUsuarios = gson.fromJson(usuario, DatosUsuarioDTO.class);
+		
+		String nombreColumna;
+		switch(columna)
+		{
+		   case "nss" : 
+			   nombreColumna = "DES_NSS";			      
+		       break;
+		   case "nombre" : 
+			   nombreColumna = "NOM_PACIENTE";			      
+			   break; 
+		   case "estatus" : 
+			   nombreColumna = "DES_ESTATUS";			      
+			   break; 
+		   default:
+			   nombreColumna = "ID_CENSO";
+		}
+
+		Pageable pageable = PageRequest.of(pagina, 10, Sort.by(nombreColumna).descending());
+		if(sort.equals("ASC")|| sort.equals("asc")) {
+			pageable = PageRequest.of(pagina, 10, Sort.by(nombreColumna).ascending());
+		}
+		
+		//response = cenPasService.consultaGeneral(pageable, datosUsuarios.getRol(),datosUsuarios.getIDOOAD());
+		response = cenPasService.consultaGeneral(pageable);
+		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getCodigo()));
+		
 	}
 	
 	public Respuesta<?> denegado( String usuario ){
