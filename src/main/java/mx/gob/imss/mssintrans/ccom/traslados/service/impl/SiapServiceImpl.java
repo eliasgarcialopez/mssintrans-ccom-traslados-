@@ -72,9 +72,7 @@ public class SiapServiceImpl implements SiapService {
 	@Override
 	public Respuesta<Empleado> buscarSiapPorMat(String matricula) {
 		Respuesta<Empleado> respuesta = new Respuesta<>();
-		Empleado empleado = new Empleado();
-		
-		empleado = consultaMatriculaService.consultaMatricula(matricula);
+		Empleado empleado = consultaMatriculaService.consultaMatricula(matricula);
 		
 		log.info("Resultado: " + empleado);
 		
@@ -84,6 +82,9 @@ public class SiapServiceImpl implements SiapService {
 			respuesta.setMensaje("Doctor no encontrado en el Siap.");
 			return respuesta;
 		}
+		
+		String nombre = empleado.getNombre();
+		empleado.setNombre( nombre.replace("&", "Ñ") );
 		
 		respuesta.setCodigo(HttpStatus.OK.value());
 		respuesta.setError(false);
