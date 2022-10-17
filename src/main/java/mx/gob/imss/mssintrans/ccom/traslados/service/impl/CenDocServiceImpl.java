@@ -2,20 +2,28 @@ package mx.gob.imss.mssintrans.ccom.traslados.service.impl;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.CenDocResponse;
+import mx.gob.imss.mssintrans.ccom.traslados.dto.CensoDoctoresResponse;
+import mx.gob.imss.mssintrans.ccom.traslados.dto.DatosUsuarioDTO;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.model.CenDocEntity;
 import mx.gob.imss.mssintrans.ccom.traslados.repository.CenDocRepository;
+import mx.gob.imss.mssintrans.ccom.traslados.repository.UnidadesAdscripcionRepository;
 import mx.gob.imss.mssintrans.ccom.traslados.service.CenDocService;
 import mx.gob.imss.mssintrans.ccom.traslados.util.CenDocMapper;
 
@@ -26,6 +34,9 @@ public class CenDocServiceImpl implements CenDocService {
 
 	@Autowired
 	private CenDocRepository cenDocRepository;
+	
+	@Autowired
+	private UnidadesAdscripcionRepository unidadesAdscripcionRepository;
 	
 	@Transactional(rollbackOn = SQLException.class)
 	@Override
@@ -169,6 +180,44 @@ public class CenDocServiceImpl implements CenDocService {
 			respuesta.setMensaje(e.getMessage());
 		}
 		
+		return respuesta;
+	}
+
+	@Override
+	public Respuesta<Page<CensoDoctoresResponse>> obtenerCensoDoctores(Pageable pageable, 	DatosUsuarioDTO datosUsuarios) {
+		Respuesta<Page<CensoDoctoresResponse>> respuesta = new Respuesta<>();
+		final Page<CenDocEntity> result;
+		List<CensoDoctoresResponse> content = null;
+		try {
+				result = datosUsuarios.rol.equals("Administrador") || datosUsuarios.rol.equals("Normativo") || datosUsuarios.IDOOAD == 9 || datosUsuarios.IDOOAD  == 39 ?
+						cenDocRepository.consultaGeneral(pageable) : cenDocRepository.consultaGeneralPorOoad(datosUsuarios.IDOOAD, pageable);
+				
+				if (!result.isEmpty()) {
+					
+					content = new ArrayList<>();
+					for (CenDocEntity cenDocEntity : result.getContent()) {
+						CensoDoctoresResponse censoDoctoresResponse = CenDocMapper.INSTANCE.entityToResponse(cenDocEntity);
+						censoDoctoresResponse.setNombreUnidad(unidadesAdscripcionRepository.findUnidadesAdscripcionEntityByIdUnidadAdscripcion(censoDoctoresResponse.getIdUnidad()).trim());
+						content.add(censoDoctoresResponse);
+					}
+					
+					Page<CensoDoctoresResponse> pageTabla = new PageImpl<>(content, pageable,result.getTotalElements());
+					
+					respuesta.setDatos(pageTabla);
+					respuesta.setError(false);
+					respuesta.setMensaje("Exito");
+					respuesta.setCodigo(HttpStatus.OK.value());
+					
+				} else {
+					respuesta.setMensaje("Exito");
+					respuesta.setCodigo(HttpStatus.NO_CONTENT.value());
+				}
+		} catch (Exception e) {
+			Log.error(e.getMessage());
+			respuesta.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			respuesta.setError(true);
+			respuesta.setMensaje(e.getMessage());
+		}
 		return respuesta;
 	}
 

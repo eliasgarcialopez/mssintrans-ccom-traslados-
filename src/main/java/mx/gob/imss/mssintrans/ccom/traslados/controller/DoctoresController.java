@@ -1,6 +1,9 @@
 package mx.gob.imss.mssintrans.ccom.traslados.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -280,6 +283,47 @@ public class DoctoresController {
 		 */
 		
 		response = siapService.buscarSiapPorMat(matricula);
+		ResponseEntity<?> responseEntity;
+		
+		if(response.isError()) {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		}else {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		
+		return responseEntity;
+	}
+	
+	@GetMapping("/matricula/censodoctores")
+	public ResponseEntity<?> obtenerCensoDoctores(@RequestParam(defaultValue = "0") Integer pagina,
+			@RequestParam(defaultValue = "10") Integer tamanio, @RequestParam(defaultValue = "ID_CENSO") String columna,
+			@RequestParam(defaultValue = "ASC") String orden) {
+		Respuesta<?> response;
+		Pageable pageable = PageRequest.of(pagina, tamanio, Sort.by(columna).descending());
+		
+		if(orden.equals("ASC")|| orden.equals("asc")) {
+			pageable = PageRequest.of(pagina, tamanio, Sort.by(columna).ascending());
+		}
+		
+		/**
+		 * Validacion de seguridad del usuario
+		 */
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if (usuario.equals("denegado")) {
+			response = denegado(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		
+		Gson gson = new Gson();
+		DatosUsuarioDTO datosUsuarios = gson.fromJson(usuario, DatosUsuarioDTO.class);
+		
+		/**
+		 * Llamado al funcionamiento del servicio
+		 */
+		
+		response = cenDocService.obtenerCensoDoctores(pageable, datosUsuarios);
+		
 		ResponseEntity<?> responseEntity;
 		
 		if(response.isError()) {
