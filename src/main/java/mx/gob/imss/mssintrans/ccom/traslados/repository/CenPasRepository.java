@@ -1,5 +1,7 @@
 package mx.gob.imss.mssintrans.ccom.traslados.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -45,7 +47,7 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			+ "AND   	SCP.IND_ACTIVO 	= '1' "
 			+ "",
 			countQuery = ""
-					+ "SELECT	COUNT(*)"
+					+ "SELECT	COUNT(*) "
 					+ "FROM		SINTRANST_CENSO_PACIENTES SCP "
 					+ "WHERE    SCP.ID_CENSO = ? "
 					+ "AND   	SCP.IND_ACTIVO 	= '1' "
@@ -58,11 +60,12 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			+ "UPDATE SINTRANST_CENSO_PACIENTES "
 			+ "SET	"
 			+ "FEC_BAJA	= NOW(), "
-			+ "IND_ACTIVO = 0 "
+			+ "IND_ACTIVO = 0, "
+			+ "CVE_MATRICULA = ?2 "
 			+ "WHERE IND_ACTIVO = '1' "
-			+ "AND ID_CENSO = ? "
+			+ "AND ID_CENSO = ?1 "
 			,nativeQuery = true )
-	void eliminar ( int id );
+	void eliminar ( int id , String matricula);
 	
 	@Query(value = ""
 			+ "SELECT	* "
@@ -71,7 +74,7 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			+ "AND   	SCP.IND_ACTIVO 	= '1' "
 			+ "",
 			countQuery = ""
-					+ "SELECT	COUNT(*)"
+					+ "SELECT	COUNT(*) "
 					+ "FROM		SINTRANST_CENSO_PACIENTES SCP "
 					+ "WHERE    SCP.DES_NSS = ? "
 					+ "AND   	SCP.IND_ACTIVO 	= '1' "
@@ -79,4 +82,13 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			nativeQuery = true )
 	CenPasEntity consultaPorNss (String desNss);
 	
+	@Query(value = "SELECT * "
+			+ "FROM		SINTRANST_CENSO_PACIENTES SCP "
+			+ "WHERE   	SCP.IND_ACTIVO 	= '1' ",
+			countQuery = "SELECT COUNT(*) "
+					+ "FROM		SINTRANST_CENSO_PACIENTES SCP "
+					+ "WHERE   	SCP.IND_ACTIVO 	= '1' ",
+			nativeQuery = true )
+	Page<CenPasEntity> consultaGeneral(Pageable paginado);
+
 }
