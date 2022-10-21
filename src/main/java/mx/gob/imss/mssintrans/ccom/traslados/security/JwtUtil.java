@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,16 +15,8 @@ import static java.util.Collections.emptyList;
 
 import java.util.Base64;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.Serializable;
-
 @Slf4j
 public class JwtUtil {
-	private static final long serialVersionUID = -2550185165626007488L;
-	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
-	private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtil.class);
 
 	public static Authentication getAuthentication(HttpServletRequest request,String secretKey2) {
 		if (secretKey2 == null) {

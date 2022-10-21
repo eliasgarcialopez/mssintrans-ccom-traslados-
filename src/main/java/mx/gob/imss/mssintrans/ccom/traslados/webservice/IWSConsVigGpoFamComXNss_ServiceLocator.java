@@ -4,9 +4,12 @@ public class IWSConsVigGpoFamComXNss_ServiceLocator extends org.apache.axis.clie
 	
 	private static final long serialVersionUID = 7888238858627854358L;
 	
-	private java.lang.String WSConsVigGpoFamComXNssPort_address = "http://11.254.13.146:7001/WSConsVigGpoFamComXNssService/WSConsVigGpoFamComXNss";
+	private java.lang.String wsConsVigGpoFamComXNssPort_address = "";
 
-	public IWSConsVigGpoFamComXNss_ServiceLocator() {
+	public IWSConsVigGpoFamComXNss_ServiceLocator() { }
+	
+	public IWSConsVigGpoFamComXNss_ServiceLocator(String address) {
+		this.wsConsVigGpoFamComXNssPort_address = address;
     }
 
 
@@ -19,7 +22,7 @@ public class IWSConsVigGpoFamComXNss_ServiceLocator extends org.apache.axis.clie
     }
     
     public java.lang.String getWSConsVigGpoFamComXNssPortAddress() {
-        return WSConsVigGpoFamComXNssPort_address;
+        return wsConsVigGpoFamComXNssPort_address;
     }
 
     // The WSDD service name defaults to the port name.
@@ -36,7 +39,7 @@ public class IWSConsVigGpoFamComXNss_ServiceLocator extends org.apache.axis.clie
     public mx.gob.imss.mssintrans.ccom.traslados.webservice.IWSConsVigGpoFamComXNss_PortType getWSConsVigGpoFamComXNssPort() throws javax.xml.rpc.ServiceException {
        java.net.URL endpoint;
         try {
-            endpoint = new java.net.URL(WSConsVigGpoFamComXNssPort_address);
+            endpoint = new java.net.URL(wsConsVigGpoFamComXNssPort_address);
         }
         catch (java.net.MalformedURLException e) {
             throw new javax.xml.rpc.ServiceException(e);
@@ -56,7 +59,7 @@ public class IWSConsVigGpoFamComXNss_ServiceLocator extends org.apache.axis.clie
     }
 
     public void setWSConsVigGpoFamComXNssPortEndpointAddress(java.lang.String address) {
-        WSConsVigGpoFamComXNssPort_address = address;
+    	wsConsVigGpoFamComXNssPort_address = address;
     }
 
     /**
@@ -67,7 +70,7 @@ public class IWSConsVigGpoFamComXNss_ServiceLocator extends org.apache.axis.clie
     public java.rmi.Remote getPort(Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
         try {
             if (mx.gob.imss.mssintrans.ccom.traslados.webservice.IWSConsVigGpoFamComXNss_PortType.class.isAssignableFrom(serviceEndpointInterface)) {
-            	mx.gob.imss.mssintrans.ccom.traslados.webservice.WSConsVigGpoFamComXNssPortBindingStub _stub = new mx.gob.imss.mssintrans.ccom.traslados.webservice.WSConsVigGpoFamComXNssPortBindingStub(new java.net.URL(WSConsVigGpoFamComXNssPort_address), this);
+            	mx.gob.imss.mssintrans.ccom.traslados.webservice.WSConsVigGpoFamComXNssPortBindingStub _stub = new mx.gob.imss.mssintrans.ccom.traslados.webservice.WSConsVigGpoFamComXNssPortBindingStub(new java.net.URL(wsConsVigGpoFamComXNssPort_address), this);
                 _stub.setPortName(getWSConsVigGpoFamComXNssPortWSDDServiceName());
                 return _stub;
             }

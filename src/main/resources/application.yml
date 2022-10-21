@@ -56,4 +56,5 @@ jwt:
   
 application:
   id: 54
+  acceder: http://11.254.13.146:7001/WSConsVigGpoFamComXNssService/WSConsVigGpoFamComXNss
     

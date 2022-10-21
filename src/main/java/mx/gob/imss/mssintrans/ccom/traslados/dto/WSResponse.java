@@ -64,7 +64,7 @@ public class WSResponse implements Serializable {
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof WSResponse)) return false;
         WSResponse other = (WSResponse) obj;
-        if (obj == null) return false;
+        if (!(obj instanceof Object)) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
             return (__equalsCalc == obj);
