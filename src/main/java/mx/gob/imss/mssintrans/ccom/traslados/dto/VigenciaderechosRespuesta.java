@@ -675,15 +675,14 @@ public class VigenciaderechosRespuesta  extends WSResponse  implements java.io.S
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof VigenciaderechosRespuesta)) return false;
         VigenciaderechosRespuesta other = (VigenciaderechosRespuesta) obj;
-        if (obj == null) return false;
+        if (!(obj instanceof Object)) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
             return (__equalsCalc == obj);
         }
         __equalsCalc = obj;
-        boolean _equals;
-        _equals = super.equals(obj) && 
-            ((this.agregadoAfiliacion==null && other.getAgregadoAfiliacion()==null) || 
+        boolean comparador;
+        comparador = ((this.agregadoAfiliacion==null && other.getAgregadoAfiliacion()==null) || 
              (this.agregadoAfiliacion!=null &&
               this.agregadoAfiliacion.equals(other.getAgregadoAfiliacion()))) &&
             ((this.agregadoMedico==null && other.getAgregadoMedico()==null) || 
@@ -765,7 +764,7 @@ public class VigenciaderechosRespuesta  extends WSResponse  implements java.io.S
              (this.idPersona!=null &&
               this.idPersona.equals(other.getIdPersona())));
         __equalsCalc = null;
-        return _equals;
+        return comparador;
     }
 
     private boolean __hashCodeCalc = false;

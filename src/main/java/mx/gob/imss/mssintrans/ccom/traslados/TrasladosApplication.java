@@ -17,12 +17,11 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 public class TrasladosApplication {
 	
 	public static void main(String[] args) {
-		SpringApplication.run(TrasladosApplication.class, args);
+		SpringApplication.run(TrasladosApplication.class);
 	}
 
 	 @Bean
 	    public RestTemplate restTemplate() {
-	        //        return new RestTemplate(factory);
 	        return new RestTemplateBuilder()
 	                .requestFactory(NoRedirectSimpleClientHttpRequestFactory.class)
 	                .setConnectTimeout(Duration.ofMillis(3000))

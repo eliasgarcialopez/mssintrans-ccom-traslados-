@@ -31,12 +31,15 @@ public class AccederServiceImpl implements AccederService {
 	
 	@Value("${application.id}")
 	String cpid;
+	
+	@Value("${application.acceder}")
+	String accederAddress;
 
 	@Override
 	public Respuesta<VigenciaderechosRespuesta> consultaVigenciaDerechosGrupoFamiliar(String nss)   {
 		Respuesta<VigenciaderechosRespuesta> response = new Respuesta<>();
 		try {
-			IWSConsVigGpoFamComXNss_Service service = new IWSConsVigGpoFamComXNss_ServiceLocator();
+			IWSConsVigGpoFamComXNss_Service service = new IWSConsVigGpoFamComXNss_ServiceLocator(accederAddress);
 			
 			IWSConsVigGpoFamComXNss_PortType ws;
 			ws = new WSConsVigGpoFamComXNssPortBindingStub(new URL(service.getWSConsVigGpoFamComXNssPortAddress()), service);

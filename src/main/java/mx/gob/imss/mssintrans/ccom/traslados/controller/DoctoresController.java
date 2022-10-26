@@ -1,17 +1,18 @@
 package mx.gob.imss.mssintrans.ccom.traslados.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
@@ -26,7 +27,6 @@ import mx.gob.imss.mssintrans.ccom.traslados.service.SiapService;
 @Slf4j
 @RestController
 @RequestMapping("/censo-doctores")
-@CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 public class DoctoresController {
 	
 	@Autowired
@@ -252,14 +252,11 @@ public class DoctoresController {
 			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 		}
 		
-		Gson gson = new Gson();
-		DatosUsuarioDTO datosUsuario = gson.fromJson(usuario, DatosUsuarioDTO.class);
-		
 		/**
 		 * Llamado al funcionamiento del servicio
 		 */
 		
-		response = cenDocService.eliminar(idCenso, datosUsuario);
+		response = cenDocService.eliminar(idCenso);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
@@ -283,6 +280,47 @@ public class DoctoresController {
 		 */
 		
 		response = siapService.buscarSiapPorMat(matricula);
+		ResponseEntity<?> responseEntity;
+		
+		if(response.isError()) {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		}else {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		
+		return responseEntity;
+	}
+	
+	@GetMapping("/matricula/censodoctores")
+	public ResponseEntity<?> obtenerCensoDoctores(@RequestParam(defaultValue = "0") Integer pagina,
+			@RequestParam(defaultValue = "10") Integer tamanio, @RequestParam(defaultValue = "ID_CENSO") String columna,
+			@RequestParam(defaultValue = "ASC") String orden) {
+		Respuesta<?> response;
+		Pageable pageable = PageRequest.of(pagina, tamanio, Sort.by(columna).descending());
+		
+		if(orden.equals("ASC")|| orden.equals("asc")) {
+			pageable = PageRequest.of(pagina, tamanio, Sort.by(columna).ascending());
+		}
+		
+		/**
+		 * Validacion de seguridad del usuario
+		 */
+		String usuario = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if (usuario.equals("denegado")) {
+			response = denegado(usuario);
+			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+		}
+		
+		Gson gson = new Gson();
+		DatosUsuarioDTO datosUsuarios = gson.fromJson(usuario, DatosUsuarioDTO.class);
+		
+		/**
+		 * Llamado al funcionamiento del servicio
+		 */
+		
+		response = cenDocService.obtenerCensoDoctores(pageable, datosUsuarios);
+		
 		ResponseEntity<?> responseEntity;
 		
 		if(response.isError()) {

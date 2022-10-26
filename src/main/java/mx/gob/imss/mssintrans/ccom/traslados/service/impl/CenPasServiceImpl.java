@@ -2,18 +2,22 @@ package mx.gob.imss.mssintrans.ccom.traslados.service.impl;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.CenPasResponse;
-import mx.gob.imss.mssintrans.ccom.traslados.dto.DatosUsuarioDTO;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.model.CenPasEntity;
 import mx.gob.imss.mssintrans.ccom.traslados.repository.CenPasRepository;
@@ -69,7 +73,9 @@ public class CenPasServiceImpl implements CenPasService {
 	@Transactional(rollbackOn = SQLException.class)
 	@Override
 	public Respuesta<CenPasResponse> actualizar(CenPasEntity cenPasEntity) {
+
 		Respuesta<CenPasResponse> respuesta = new Respuesta<>();
+		
 		try {
 			
 			log.info("Actualizando Censo de Pacientes");
@@ -133,12 +139,14 @@ public class CenPasServiceImpl implements CenPasService {
 
 	@Transactional(rollbackOn = SQLException.class)
 	@Override
-	public Respuesta<CenPasResponse> eliminar(Integer idCenso, DatosUsuarioDTO datosUsuario ) {
+	public Respuesta<CenPasResponse> eliminar(Integer idCenso, String matricula) {
 		Respuesta<CenPasResponse> respuesta = new Respuesta<>();
+		
 		try {
+			
 			log.info("Eliminando en Censo de Pacientes: " + idCenso);
 			
-			cenPasRepository.eliminar(datosUsuario.getMatricula(), idCenso);
+			cenPasRepository.eliminar(idCenso, matricula);
 			cenPasRepository.flush();
 			
 			respuesta.setCodigo(HttpStatus.OK.value());
@@ -188,6 +196,34 @@ public class CenPasServiceImpl implements CenPasService {
 			respuesta.setMensaje(e.getMessage());
 			return respuesta;
 		}
+		
+		return respuesta;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> Respuesta consultaGeneral(Pageable pageable) {
+		Respuesta<T> respuesta = new Respuesta<>();
+		Page<CenPasEntity> consultaGeneral = null;
+		List<CenPasResponse> tablaResponse = new ArrayList<>();
+		try {
+		    consultaGeneral = cenPasRepository.consultaGeneral(pageable);
+		    for (CenPasEntity cenPasEnt : consultaGeneral) {
+		    	CenPasResponse cenPasRes = CenPasMapper.INSTANCE.entityAJson(cenPasEnt);
+		    	tablaResponse.add(cenPasRes);
+		    }
+		} catch (Exception e) {
+			respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
+			respuesta.setError(true);
+			respuesta.setMensaje(e.getMessage());
+			return respuesta;
+		}
+		Page<CenPasResponse> objetoMapeado = new PageImpl<>(tablaResponse, pageable,
+                consultaGeneral.getTotalElements());
+        respuesta.setCodigo(HttpStatus.OK.value());
+        respuesta.setError(false);
+        respuesta.setMensaje("Exito");
+		respuesta.setDatos((T) objetoMapeado);
 		
 		return respuesta;
 	}

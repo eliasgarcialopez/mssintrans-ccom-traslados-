@@ -1,8 +1,6 @@
 package mx.gob.imss.mssintrans.ccom.traslados.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,23 +27,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 
 import org.springframework.web.bind.annotation.RequestBody;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.DatosUsuarioDTO;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Traslado;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.TrasladosTablaRespuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.service.impl.TrasladoServiceImpl;
 
-
-
-
-
-
-@Slf4j
 @RestController
 @RequestMapping("/traslados")
-@CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 public class TrasladosController {
 	@Autowired
 	private TrasladoServiceImpl trasladoServiceImpl;

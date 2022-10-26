@@ -8,11 +8,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import lombok.extern.slf4j.Slf4j;
 
 import mx.gob.imss.mssintrans.ccom.traslados.dto.DatosUsuarioDTO;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
@@ -24,7 +21,6 @@ import mx.gob.imss.mssintrans.ccom.traslados.util.UnidadesMapper;
 
 @Transactional(rollbackOn = { SQLException.class, IOException.class })
 @Service
-@Slf4j
 public class UnidadesServiceImpl implements UnidadesService{
 	
 	@Autowired
@@ -35,7 +31,7 @@ public class UnidadesServiceImpl implements UnidadesService{
 	Respuesta<T> respuesta = new Respuesta<>();
 	List<UnidadesEntity> unidadesEntity = new ArrayList<>();
 	try {
-		if(usuario.equals("Administrador") || usuario.equals("Normativo") || usuario.IDOOAD == 9 || usuario.IDOOAD  == 39 ){
+		if(usuario.rol.equals("Administrador") || usuario.rol.equals("Normativo") || usuario.IDOOAD == 9 || usuario.IDOOAD  == 39 ){
 			unidadesEntity=unidadesRepository.consultaGeneral();
 		}else{
 			unidadesEntity=unidadesRepository.consultaPorOoad(usuario.getIDOOAD());

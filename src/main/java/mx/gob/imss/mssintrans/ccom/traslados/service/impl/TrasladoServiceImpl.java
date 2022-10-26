@@ -207,14 +207,15 @@ public class TrasladoServiceImpl implements TrasladoService {
 	public <T> Respuesta eliminarTraslado(Integer id,String matricula) {
 		Respuesta<T> respuesta = new Respuesta<>();
 		TrasladoEntity trasladoEntity = null;
+		TrasladoEntity elimandoEntity = null;
 
 		try {
 			trasladoEntity = trasladoRepository.findByIdSolicitudAndIndActivoEquals(id, 1)
 					.orElseThrow(() -> new Exception("No se encontro el traslado"));
 			trasladoEntity.setIndActivo(0);
 			trasladoEntity.setFecBaja(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
-			trasladoEntity.setCveMatriculaBaja(matricula);
-			trasladoRepository.save(trasladoEntity);
+			trasladoEntity.setCveMatricula(matricula);
+			elimandoEntity = trasladoRepository.save(trasladoEntity);
 
 		} catch (Exception e) {
 			log.debug("error {}", e.getMessage());
@@ -252,7 +253,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 			busquedaTraslado.setNumMatriculaRecibe(traslado.getNumMatriculaRecibe());
 			busquedaTraslado.setNumMatriculaAutoriza(traslado.getNumMatriculaAutoriza());
 			busquedaTraslado.setFecActualizacion(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
-			busquedaTraslado.setCveMatriculaModifica(matricula);
+			busquedaTraslado.setCveMatricula(matricula);
 			busquedaTraslado.setDesMunicipio(traslado.getDesMunicipio());
 			busquedaTraslado.setDesEstado(traslado.getDesEstado());
 			busquedaTraslado.setDesCiudad(traslado.getDesCiudad());
@@ -294,6 +295,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 		trasladoResponse.setCodigoPostal(trasladosEntity.getCodigoPostal() == null ?"":trasladoResponse.getCodigoPostal());
 		trasladoResponse.setNomEstado(trasladosEntity.getNomEstado() == null ?"":trasladoResponse.getNomEstado());
 		trasladoResponse.setNomMunicipio(trasladosEntity.getNomMunicipio() == null ?"":trasladoResponse.getNomMunicipio());
+		//trasladoResponse.setNumTelDestino(trasladosEntity.getNumTelDestino() == null ?0:trasladoResponse.getNumTelDestino());
 		
 		respuesta.setCodigo(HttpStatus.OK.value());
 		respuesta.setError(false);

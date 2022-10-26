@@ -2,9 +2,12 @@ package mx.gob.imss.mssintrans.ccom.traslados.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import mx.gob.imss.mssintrans.ccom.traslados.model.CenDocEntity;
 
@@ -17,7 +20,7 @@ public interface CenDocRepository extends JpaRepository<CenDocEntity, Integer> {
 			+ "SET 	 "
 			+ "		ID_UNIDAD=?, "
 			+ "		DES_ESTATUS=?, "
-			+ "		CVE_MATRICULA_MODIFICA=?, "
+			+ "		CVE_MATRICULA=?, "
 			+ "		FEC_ACTUALIZACION = NOW() "
 			+ " "
 			+ "WHERE 	ID_CENSO=?"
@@ -25,7 +28,7 @@ public interface CenDocRepository extends JpaRepository<CenDocEntity, Integer> {
 	void actualizar (
 			Integer idUnidad,
 			String desEstatus,
-			String cveMatriculaModifica,
+			String cveMatricula,
 			Integer idCenso );
 	
 	@Query(value = ""
@@ -75,11 +78,37 @@ public interface CenDocRepository extends JpaRepository<CenDocEntity, Integer> {
 	@Query(value = ""
 			+ "UPDATE SINTRANST_CENSO_DOCTORES "
 			+ "SET	"
-			+ "CVE_MATRICULA_BAJA = ?, "
 			+ "FEC_BAJA	= NOW(), "
 			+ "IND_ACTIVO = 0 "
 			+ "WHERE IND_ACTIVO = '1' "
 			+ "AND ID_CENSO = ? "
 			,nativeQuery = true )
-	void eliminar (String cveMatriculaBaja, Integer id );
+	void eliminar ( int id );
+	
+	@Query(value = ""
+			+ " SELECT	* "
+			+ " FROM SINTRANST_CENSO_DOCTORES SCC INNER JOIN SINTRANSC_UNIDADES_ADSCRIPCION SUA "
+			+ " ON SCC.ID_UNIDAD = SUA.ID_UNIDAD_ADSCRIPCION WHERE SCC.IND_ACTIVO = '1' AND SUA.IND_ACTIVO = '1'"
+			+ "",
+			countQuery = ""
+					+ " SELECT	COUNT(*) "
+					+ " FROM SINTRANST_CENSO_DOCTORES SCC INNER JOIN SINTRANSC_UNIDADES_ADSCRIPCION SUA "
+					+ " ON SCC.ID_UNIDAD = SUA.ID_UNIDAD_ADSCRIPCION WHERE SCC.IND_ACTIVO = '1' AND SUA.IND_ACTIVO = '1' "
+					+ "",
+			nativeQuery = true )
+	Page<CenDocEntity> consultaGeneral(Pageable pageable);
+	
+	@Query(value = ""
+			+ " SELECT	* "
+			+ " FROM SINTRANST_CENSO_DOCTORES SCC INNER JOIN SINTRANSC_UNIDADES_ADSCRIPCION SUA "
+			+ " ON SCC.ID_UNIDAD = SUA.ID_UNIDAD_ADSCRIPCION WHERE SUA.ID_OOAD = :ooad "
+			+ " AND SCC.IND_ACTIVO = '1' AND SUA.IND_ACTIVO = '1'"
+			+ "",
+			countQuery = ""
+					+ " SELECT	COUNT(*) "
+					+ " FROM SINTRANST_CENSO_DOCTORES SCC INNER JOIN SINTRANSC_UNIDADES_ADSCRIPCION SUA "
+					+ " ON SCC.ID_UNIDAD = SUA.ID_UNIDAD_ADSCRIPCION WHERE SUA.ID_OOAD = :ooad "
+					+ " AND SCC.IND_ACTIVO = '1' AND SUA.IND_ACTIVO = '1' ",
+			nativeQuery = true )
+	Page<CenDocEntity> consultaGeneralPorOoad(@Param("ooad") Integer ooad, Pageable pageable);
 }

@@ -72,14 +72,9 @@ public class ConsultaMatriculaServiceImpl implements ConsultaMatriculaService {
             
 
         } catch (JAXBException e) {
-
-            e.printStackTrace();
-
-            log.info(e.getMessage());
-
+            log.info("Error!" + e.getMessage());
         }
         
         return matricula;
     }
-
 }
