@@ -161,4 +161,11 @@ public class TrasladoEntity {
 
 	@Column(name = "DES_FIRMA", unique = false, nullable = true)
 	private String desFirma;
+	
+	@Column(name = "ID_TIPO_SOLICITUD", unique = false, nullable = true)
+	private Integer idTipoSolicitud;
+	
+	@Column(name = "IND_SOLICITUD_FORANEA", unique = false, nullable = true)
+	private Boolean indSolicitudForanea;
+	
 }

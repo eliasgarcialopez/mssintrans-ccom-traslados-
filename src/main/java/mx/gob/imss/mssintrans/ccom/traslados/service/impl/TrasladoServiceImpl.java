@@ -28,10 +28,12 @@ import mx.gob.imss.mssintrans.ccom.traslados.model.CenDocEntity;
 import mx.gob.imss.mssintrans.ccom.traslados.model.CenPasEntity;
 import mx.gob.imss.mssintrans.ccom.traslados.model.TrasladoEntity;
 import mx.gob.imss.mssintrans.ccom.traslados.model.TrasladosEntity;
+import mx.gob.imss.mssintrans.ccom.traslados.model.UnidadesEntity;
 import mx.gob.imss.mssintrans.ccom.traslados.repository.CenDocRepository;
 import mx.gob.imss.mssintrans.ccom.traslados.repository.CenPasRepository;
 import mx.gob.imss.mssintrans.ccom.traslados.repository.TrasladoRepository;
 import mx.gob.imss.mssintrans.ccom.traslados.repository.TrasladosRepository;
+import mx.gob.imss.mssintrans.ccom.traslados.repository.UnidadesRepository;
 import mx.gob.imss.mssintrans.ccom.traslados.service.TrasladoService;
 import mx.gob.imss.mssintrans.ccom.traslados.util.TrasladosMapper;
 
@@ -51,22 +53,36 @@ public class TrasladoServiceImpl implements TrasladoService {
 
 	@Autowired
 	private CenPasRepository cenPasRepository;
+	
+	@Autowired
+	private UnidadesRepository unidadesRepository;
 
 	private static final Logger log = LoggerFactory.getLogger(TrasladoServiceImpl.class);
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> Respuesta consultaGeneral(Pageable pageable, String usuario, Integer idooad) {
+	public <T> Respuesta consultaGeneral(Pageable pageable, DatosUsuarioDTO usuario) {
 		Respuesta<T> respuesta = new Respuesta<>();
-		Page consultaGeneral =null;
-		List<TrasladosTablaRespuesta> tablaResponse=null;
+		Page consultaGeneral = null;
+		List<TrasladosTablaRespuesta> tablaResponse = null;
+		
 		try {
-			consultaGeneral = trasladosRepository.consultaGeneralOOAD(pageable, idooad);
-			if(usuario.equals("Administrador") || usuario.equals("Normativo") || idooad == 9 || idooad == 39 ){
+			consultaGeneral = trasladosRepository.consultaGeneralOOAD(pageable, usuario.getIDOOAD());
+			if (usuario.getRol().equals("Administrador") || usuario.getRol().equals("Normativo") || usuario.getIDOOAD() == 9 || usuario.getIDOOAD() == 39) {
 				consultaGeneral = trasladosRepository.consultaGeneral(pageable);
+				
+			} else {
+				UnidadesEntity unidadesEntity = unidadesRepository.findUnidadCentracom(usuario.getMatricula());
+			    if (unidadesEntity != null) {
+			    	consultaGeneral = trasladosRepository.consultaGeneralUnidad(pageable, unidadesEntity.getIdUnidad());
+			    } else {
+			    	respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
+					respuesta.setError(false);
+					respuesta.setMensaje("No hay datos");
+					return respuesta;
+			    }
 			}
-			tablaResponse= TrasladosMapper.INSTANCE.formatLista(consultaGeneral.getContent());
-			
+			tablaResponse = TrasladosMapper.INSTANCE.formatLista(consultaGeneral.getContent());
 			
 		} catch (Exception e) {
 			respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
@@ -259,6 +275,8 @@ public class TrasladoServiceImpl implements TrasladoService {
 			busquedaTraslado.setDesCiudad(traslado.getDesCiudad());
 			busquedaTraslado.setCveCodPostal(traslado.getCveCodPostal());
 			busquedaTraslado.setDesFirma(traslado.getDesFirma());
+			busquedaTraslado.setIdTipoSolicitud(traslado.getIdTipoSolicitud());
+			busquedaTraslado.setIndSolicitudForanea(traslado.getIndSolicitudForanea());
 			actualizadoTraslado = trasladoRepository.save(busquedaTraslado);
 			
 			// censo doctores

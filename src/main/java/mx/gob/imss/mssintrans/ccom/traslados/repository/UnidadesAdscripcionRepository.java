@@ -13,4 +13,5 @@ public interface UnidadesAdscripcionRepository extends JpaRepository<UnidadesAds
     
     @Query(value = "select u.nomUnidadAdscripcion from UnidadesAdscripcionEntity u where u.idUnidadAdscripcion = :idUnidadAdscripcion AND u.indActivo = 1")
     String findUnidadesAdscripcionEntityByIdUnidadAdscripcion(@Param("idUnidadAdscripcion") Integer idUnidadAdscripcion);
+    
 }

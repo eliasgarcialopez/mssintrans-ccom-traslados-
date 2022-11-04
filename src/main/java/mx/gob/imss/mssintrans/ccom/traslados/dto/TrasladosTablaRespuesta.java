@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonRootName(value = "traslados")
 public class TrasladosTablaRespuesta {
+	
 	@JsonProperty
 	private Integer idSolicitud;
 	@JsonProperty
@@ -26,4 +27,11 @@ public class TrasladosTablaRespuesta {
 	private String desNomPaciente;
 	@JsonProperty
 	private String desnsPaciente;
+	@JsonProperty
+	private String umDestino;
+	@JsonProperty
+	private Integer idTipoSolicitud;
+	@JsonProperty
+	private String desEstatusSolicitud;
+	
 }
