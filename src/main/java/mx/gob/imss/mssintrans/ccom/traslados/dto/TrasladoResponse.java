@@ -53,4 +53,7 @@ public class TrasladoResponse {
 	private String desCiudad;
 	private String cveCodPostal;
 	private String desFirma;
+	private Integer idTipoSolicitud;
+	private Boolean indSolicitudForanea;
+	
 }

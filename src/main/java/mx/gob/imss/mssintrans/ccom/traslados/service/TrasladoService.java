@@ -9,7 +9,7 @@ import mx.gob.imss.mssintrans.ccom.traslados.dto.Traslado;
 
 public interface TrasladoService {
 
-	<T>Respuesta consultaGeneral(Pageable pageable, String usuario, Integer IDOOAD);
+	<T>Respuesta consultaGeneral(Pageable pageable, DatosUsuarioDTO usuario);
 	<T>Respuesta consultaPorId(Integer id);
 	<T>Respuesta guardarNuevoRegistro(Traslado traslados,String matricula);
 	<T>Respuesta eliminarTraslado(Integer id,String matricula);

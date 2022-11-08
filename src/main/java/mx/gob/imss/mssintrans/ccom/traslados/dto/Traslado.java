@@ -51,6 +51,8 @@ public class Traslado {
 	private String desCiudad;
 	private String cveCodPostal;
 	private String desFirma;
+	private Integer idTipoSolicitud;
+	private Boolean indSolicitudForanea;
 	//private String cveMatricula;
 
 }

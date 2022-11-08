@@ -66,7 +66,7 @@ public class TrasladosController {
 			pageable = PageRequest.of(pagina, tamanio, Sort.by(nombreColumna).ascending());
 		}
 	
-		response = trasladoServiceImpl.consultaGeneral(pageable, datosUsuarios.getRol(),datosUsuarios.getIDOOAD());
+		response = trasladoServiceImpl.consultaGeneral(pageable, datosUsuarios);
 		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getCodigo()));
 		//return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -123,8 +123,7 @@ public class TrasladosController {
 			response.setMensaje(usuario);
 			return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 		}
-		Gson gson = new Gson();
-		DatosUsuarioDTO datosUsuarios = gson.fromJson(usuario, DatosUsuarioDTO.class);
+				
 		response = trasladoServiceImpl.consultaPorId(idTraslado);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
