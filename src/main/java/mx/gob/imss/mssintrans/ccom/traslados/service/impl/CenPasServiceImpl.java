@@ -21,6 +21,7 @@ import mx.gob.imss.mssintrans.ccom.traslados.dto.CenPasResponse;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.model.CenPasEntity;
 import mx.gob.imss.mssintrans.ccom.traslados.repository.CenPasRepository;
+import mx.gob.imss.mssintrans.ccom.traslados.repository.UnidadesRepository;
 import mx.gob.imss.mssintrans.ccom.traslados.service.CenPasService;
 import mx.gob.imss.mssintrans.ccom.traslados.util.CenPasMapper;
 
@@ -31,6 +32,9 @@ public class CenPasServiceImpl implements CenPasService {
 	
 	@Autowired
 	private CenPasRepository cenPasRepository;
+	
+	@Autowired
+	private UnidadesRepository unidadesRepository;
 
 	@Transactional(rollbackOn = SQLException.class)
 	@Override
@@ -50,6 +54,10 @@ public class CenPasServiceImpl implements CenPasService {
 		try {
 			
 			log.info("Creando Nuevo Censo de Pacientes");
+			
+			Integer idUnidadAdscripcion =  unidadesRepository.findUnidadCentraComByCveMatricula(cenPasEntity.getCveMatricula());
+			
+			cenPasEntity.setUnidadAdscripcion(unidadesRepository.findUnidadesAdscripcionById(idUnidadAdscripcion));
 			
 			cenPasEntity = cenPasRepository.saveAndFlush(cenPasEntity);
 			
@@ -80,9 +88,11 @@ public class CenPasServiceImpl implements CenPasService {
 			
 			log.info("Actualizando Censo de Pacientes");
 			
+			Integer idUnidadAdscripcion =  unidadesRepository.findUnidadCentraComByCveMatricula(cenPasEntity.getCveMatricula());
+			
 			cenPasRepository.actualizar(cenPasEntity.getDesEstatus(), cenPasEntity.getLunes(),
 					cenPasEntity.getMartes(), cenPasEntity.getMiercoles(), cenPasEntity.getJueves(), cenPasEntity.getViernes(),
-					cenPasEntity.getSabado(), cenPasEntity.getDomingo(), cenPasEntity.getCveMatricula(), cenPasEntity.getIdCenso());
+					cenPasEntity.getSabado(), cenPasEntity.getDomingo(), cenPasEntity.getCveMatricula(), idUnidadAdscripcion, cenPasEntity.getIdCenso());
 			
 		} catch (Exception e) {
 			 log.error("Ha ocurrido un error al actualizar el mantenimiento", e.getMessage());

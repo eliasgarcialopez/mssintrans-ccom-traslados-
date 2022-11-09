@@ -63,5 +63,8 @@ public class CenPasResponse {
 	
 	@JsonProperty
 	private Integer indSistema;
+	
+	@JsonProperty
+	UnidadesRespuesta unidadAdscripcion;
 
 }

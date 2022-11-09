@@ -264,7 +264,6 @@ public class PacientesController {
 			pageable = PageRequest.of(pagina, 10, Sort.by(nombreColumna).ascending());
 		}
 		
-		//response = cenPasService.consultaGeneral(pageable, datosUsuarios.getRol(),datosUsuarios.getIDOOAD());
 		response = cenPasService.consultaGeneral(pageable);
 		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getCodigo()));
 		

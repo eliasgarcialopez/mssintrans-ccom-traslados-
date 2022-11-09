@@ -24,6 +24,7 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			+ "		IND_SABADO=?, "
 			+ "		IND_DOMINGO=?, "
 			+ "		CVE_MATRICULA=?, "
+			+ "		ID_UNIDAD_ADSCRIPCION=?, "
 			+ "		FEC_ACTUALIZACION = NOW() "
 			+ " "
 			+ "WHERE 	ID_CENSO=?"
@@ -38,6 +39,7 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			Integer sabado,
 			Integer domingo,
 			String cveMatricula,
+			Integer idUnidadAdscripcion,
 			Integer idCenso );
 	
 	@Query(value = ""
@@ -70,13 +72,17 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 	@Query(value = ""
 			+ "SELECT	* "
 			+ "FROM		SINTRANST_CENSO_PACIENTES SCP "
+			+ "INNER	JOIN SINTRANSC_UNIDADES_ADSCRIPCION SUA ON SUA.ID_UNIDAD_ADSCRIPCION = SCP.ID_UNIDAD_ADSCRIPCION "
 			+ "WHERE    SCP.DES_NSS = ? "
+			+ "AND   	SUA.IND_ACTIVO 	= '1' "
 			+ "AND   	SCP.IND_ACTIVO 	= '1' "
 			+ "",
 			countQuery = ""
 					+ "SELECT	COUNT(*) "
 					+ "FROM		SINTRANST_CENSO_PACIENTES SCP "
+					+ "INNER	JOIN SINTRANSC_UNIDADES_ADSCRIPCION SUA ON SUA.ID_UNIDAD_ADSCRIPCION = SCP.ID_UNIDAD_ADSCRIPCION "
 					+ "WHERE    SCP.DES_NSS = ? "
+					+ "AND   	SUA.IND_ACTIVO 	= '1' "
 					+ "AND   	SCP.IND_ACTIVO 	= '1' "
 					+ "",
 			nativeQuery = true )
