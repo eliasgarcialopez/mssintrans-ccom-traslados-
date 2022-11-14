@@ -55,7 +55,7 @@ public class CenDocServiceImpl implements CenDocService {
 		
 		try {
 			
-			log.info("Creando Nuevo Censo de Doctores");
+			log.info("Creando Nuevo Médico");
 			
 			CenDocEntity registro = cenDocRepository.consultaPorMat(cenDocEntity.getMatriculaDoctor());
 			
@@ -66,14 +66,14 @@ public class CenDocServiceImpl implements CenDocService {
 				response = CenDocMapper.INSTANCE.entityAJson(cenDocEntity);
 				respuesta.setCodigo(HttpStatus.OK.value());
 				respuesta.setError(false);
-				respuesta.setMensaje("Exito");
+				respuesta.setMensaje("El médico se guardo exitosamente");
 				respuesta.setDatos(response);
 			
 			} else {
 				
 				respuesta.setCodigo(HttpStatus.BAD_REQUEST.value());
 				respuesta.setError(true);
-				respuesta.setMensaje("Matricula repetida, el medico ya existe");
+				respuesta.setMensaje("Matricula repetida, el médico ya existe");
 				
 			}
 			
@@ -104,7 +104,7 @@ public class CenDocServiceImpl implements CenDocService {
 				
 				respuesta.setCodigo(HttpStatus.OK.value());
 				respuesta.setError(false);
-				respuesta.setMensaje("Exito");
+				respuesta.setMensaje("El médico se actualizó exitosamente");
 			
 			} else {
 				
@@ -117,7 +117,7 @@ public class CenDocServiceImpl implements CenDocService {
 			
 			
 		} catch (Exception e) {
-			 log.error("Ha ocurrido un error al actualizar el mantenimiento", e.getMessage());
+			 log.error("Ha ocurrido un error al actualizar el médico", e.getMessage());
 			respuesta.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			respuesta.setError(true);
 			respuesta.setMensaje(e.getMessage());
@@ -140,14 +140,14 @@ public class CenDocServiceImpl implements CenDocService {
 			if(cenDocEntity==null) {
 				respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
 				respuesta.setError(true);
-				respuesta.setMensaje("Doctor no encontrado en el Censo.");
+				respuesta.setMensaje("No se encontro el médico");
 				return respuesta;
 			}
 			
 			response = CenDocMapper.INSTANCE.entityAJson(cenDocEntity);
 			respuesta.setCodigo(HttpStatus.OK.value());
 			respuesta.setError(false);
-			respuesta.setMensaje("Exito");
+			respuesta.setMensaje("Se encontro el médico");
 			respuesta.setDatos(response);
 			
 		} catch (Exception e) {
@@ -171,7 +171,7 @@ public class CenDocServiceImpl implements CenDocService {
 			
 			respuesta.setCodigo(HttpStatus.OK.value());
 			respuesta.setError(false);
-			respuesta.setMensaje("Exito");
+			respuesta.setMensaje("Se elimino el médico");
 			
 		} catch (Exception e) {
 			Log.error(e.getMessage());
@@ -205,11 +205,11 @@ public class CenDocServiceImpl implements CenDocService {
 					
 					respuesta.setDatos(pageTabla);
 					respuesta.setError(false);
-					respuesta.setMensaje("Exito");
+					respuesta.setMensaje("Medicos obtenidos");
 					respuesta.setCodigo(HttpStatus.OK.value());
 					
 				} else {
-					respuesta.setMensaje("Exito");
+					respuesta.setMensaje("No se encontraron medicos");
 					respuesta.setCodigo(HttpStatus.NO_CONTENT.value());
 				}
 		} catch (Exception e) {
