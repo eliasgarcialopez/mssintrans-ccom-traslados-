@@ -206,9 +206,11 @@ public class TrasladoServiceImpl implements TrasladoService {
 		
 		TrasladosEntity trasladosEntity = trasladosRepository.consultaPorId(nuevoTraslado.getIdSolicitud());
 		TrasladoResponse trasladoResponse = TrasladosMapper.INSTANCE.entityASJson(trasladosEntity);
-		trasladoResponse.setCodigoPostal(trasladosEntity.getCodigoPostal() == null ?"":trasladoResponse.getCodigoPostal());
-		trasladoResponse.setNomEstado(trasladosEntity.getNomEstado() == null ?"":trasladoResponse.getNomEstado());
-		trasladoResponse.setNomMunicipio(trasladosEntity.getNomMunicipio() == null ?"":trasladoResponse.getNomMunicipio());
+		if (trasladoResponse != null) {
+		   trasladoResponse.setCodigoPostal(trasladosEntity.getCodigoPostal() == null ?"":trasladoResponse.getCodigoPostal());
+		   trasladoResponse.setNomEstado(trasladosEntity.getNomEstado() == null ?"":trasladoResponse.getNomEstado());
+		   trasladoResponse.setNomMunicipio(trasladosEntity.getNomMunicipio() == null ?"":trasladoResponse.getNomMunicipio());
+		}
 		//trasladoResponse.setNumTelDestino(trasladosEntity.getNumTelDestino() == null ?0:trasladoResponse.getNumTelDestino());
 		
 		respuesta.setCodigo(HttpStatus.OK.value());
