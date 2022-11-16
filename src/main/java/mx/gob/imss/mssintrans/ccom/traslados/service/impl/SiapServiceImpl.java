@@ -37,9 +37,9 @@ public class SiapServiceImpl implements SiapService {
 		log.info("Resultado: " + registro);
 		
 		if(registro==null) {
-			respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
+			respuesta.setCodigo(HttpStatus.OK.value());
 			respuesta.setError(true);
-			respuesta.setMensaje("Doctor no encontrado en el Censo.");
+			respuesta.setMensaje("Médico no encontrado en el Censo.");
 			return respuesta;
 		}
 		

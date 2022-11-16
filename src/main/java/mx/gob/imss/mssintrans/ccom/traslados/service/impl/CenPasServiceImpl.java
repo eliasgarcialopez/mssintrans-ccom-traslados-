@@ -186,7 +186,7 @@ public class CenPasServiceImpl implements CenPasService {
 			cenPasEntity = cenPasRepository.consultaPorNss(desNss);
 			
 			if(cenPasEntity==null) {
-				respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
+				respuesta.setCodigo(HttpStatus.OK.value());
 				respuesta.setError(true);
 				respuesta.setMensaje("Paciente no encontrado en el Censo.");
 				return respuesta;
