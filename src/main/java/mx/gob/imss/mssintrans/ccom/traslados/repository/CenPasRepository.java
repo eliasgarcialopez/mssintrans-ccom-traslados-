@@ -88,12 +88,8 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			nativeQuery = true )
 	CenPasEntity consultaPorNss (String desNss);
 	
-	@Query(value = "SELECT * "
-			+ "FROM		SINTRANST_CENSO_PACIENTES SCP "
-			+ "WHERE   	SCP.IND_ACTIVO 	= '1' ",
-			countQuery = "SELECT COUNT(*) "
-					+ "FROM		SINTRANST_CENSO_PACIENTES SCP "
-					+ "WHERE   	SCP.IND_ACTIVO 	= '1' ",
+	@Query(value = "SELECT * FROM SINTRANST_CENSO_PACIENTES SCP WHERE  SCP.IND_ACTIVO = 1 ",
+			countQuery = "SELECT COUNT(*)  FROM SINTRANST_CENSO_PACIENTES SCP  WHERE SCP.IND_ACTIVO = 1 ",
 			nativeQuery = true )
 	Page<CenPasEntity> consultaGeneral(Pageable paginado);
 
