@@ -196,7 +196,7 @@ public class CenPasServiceImpl implements CenPasService {
 			response = CenPasMapper.INSTANCE.entityAJson(cenPasEntity);
 			
 			respuesta.setCodigo(HttpStatus.OK.value());
-			respuesta.setError(false);
+			respuesta.setError(true);
 			respuesta.setMensaje("Exito");
 			respuesta.setDatos(response);
 		

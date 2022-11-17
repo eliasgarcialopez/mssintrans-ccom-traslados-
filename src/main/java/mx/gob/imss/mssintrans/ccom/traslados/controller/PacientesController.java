@@ -219,8 +219,8 @@ public class PacientesController {
 		
 		ResponseEntity<?> responseEntity;
 		
-		if(response.isError()) {
-			responseEntity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		if(response.getCodigo() == 500) {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}else {
 			responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
 		}

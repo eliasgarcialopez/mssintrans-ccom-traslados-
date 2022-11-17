@@ -8,6 +8,7 @@ import java.net.URL;
 import java.rmi.RemoteException;
 
 import org.apache.axis.AxisFault;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.Respuesta;
 import mx.gob.imss.mssintrans.ccom.traslados.dto.VigenciaderechosRespuesta;
+import mx.gob.imss.mssintrans.ccom.traslados.repository.UnidadesAdscripcionRepository;
 import mx.gob.imss.mssintrans.ccom.traslados.service.AccederService;
 import mx.gob.imss.mssintrans.ccom.traslados.webservice.IWSConsVigGpoFamComXNss_PortType;
 import mx.gob.imss.mssintrans.ccom.traslados.webservice.IWSConsVigGpoFamComXNss_Service;
@@ -34,6 +36,9 @@ public class AccederServiceImpl implements AccederService {
 	
 	@Value("${application.acceder}")
 	String accederAddress;
+	
+	@Autowired
+	private UnidadesAdscripcionRepository unidadesAdscripcionRepository;
 
 	@Override
 	public Respuesta<VigenciaderechosRespuesta> consultaVigenciaDerechosGrupoFamiliar(String nss)   {
@@ -46,6 +51,10 @@ public class AccederServiceImpl implements AccederService {
 			
 			try {
 				VigenciaderechosRespuesta vigenciaderechosRespuesta = ws.getInfo(nss, cpid);
+				
+				if (null != vigenciaderechosRespuesta.getDhUMF().trim() && "" !=  vigenciaderechosRespuesta.getDhUMF().trim()) {
+					vigenciaderechosRespuesta.setDhUMF(unidadesAdscripcionRepository.findUnidadesAdscripcionEntityByIdUnidadAdscripcion(Integer.parseInt(vigenciaderechosRespuesta.getDhUMF().trim())));
+				}	
 				
 				response.setDatos(vigenciaderechosRespuesta);
 	            response.setCodigo(HttpStatus.OK.value());
