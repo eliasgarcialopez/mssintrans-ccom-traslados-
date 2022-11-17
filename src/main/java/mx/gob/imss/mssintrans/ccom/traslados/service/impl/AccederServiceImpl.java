@@ -51,11 +51,11 @@ public class AccederServiceImpl implements AccederService {
 			
 			try {
 				VigenciaderechosRespuesta vigenciaderechosRespuesta = ws.getInfo(nss, cpid);
-				
-				if (null != vigenciaderechosRespuesta.getDhUMF().trim() && "" !=  vigenciaderechosRespuesta.getDhUMF().trim()) {
+				 
+				if (vigenciaderechosRespuesta.getCodigoError() == 0) {
 					vigenciaderechosRespuesta.setDhUMF(unidadesAdscripcionRepository.findUnidadesAdscripcionEntityByIdUnidadAdscripcion(Integer.parseInt(vigenciaderechosRespuesta.getDhUMF().trim())));
-				}	
-				
+				}
+					
 				response.setDatos(vigenciaderechosRespuesta);
 	            response.setCodigo(HttpStatus.OK.value());
 	            response.setMensaje("Exito");
