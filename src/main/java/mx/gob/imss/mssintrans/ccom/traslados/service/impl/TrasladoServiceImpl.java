@@ -72,9 +72,9 @@ public class TrasladoServiceImpl implements TrasladoService {
 				consultaGeneral = trasladosRepository.consultaGeneral(pageable);
 				
 			} else {
-				UnidadesEntity unidadesEntity = unidadesRepository.findUnidadCentracom(usuario.getMatricula());
-			    if (unidadesEntity != null) {
-			    	consultaGeneral = trasladosRepository.consultaGeneralUnidad(pageable, unidadesEntity.getIdUnidad());
+				//UnidadesEntity unidadesEntity = unidadesRepository.findUnidadCentracom(usuario.getMatricula());
+			    if (usuario.getIDOOAD() != null) {
+			    	consultaGeneral = trasladosRepository.consultaGeneralUnidad(pageable, usuario.getIDOOAD());
 			    } else {
 			    	respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
 					respuesta.setError(false);
