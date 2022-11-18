@@ -38,7 +38,7 @@ public class SiapServiceImpl implements SiapService {
 		
 		if(registro==null) {
 			respuesta.setCodigo(HttpStatus.OK.value());
-			respuesta.setError(true);
+			respuesta.setError(false);
 			respuesta.setMensaje("Médico no encontrado en el Censo.");
 			return respuesta;
 		}
@@ -77,8 +77,8 @@ public class SiapServiceImpl implements SiapService {
 		log.info("Resultado: " + empleado);
 		
 		if(empleado==null) {
-			respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
-			respuesta.setError(true);
+			respuesta.setCodigo(HttpStatus.OK.value());
+			respuesta.setError(false);
 			respuesta.setMensaje("Doctor no encontrado en el Siap.");
 			return respuesta;
 		}

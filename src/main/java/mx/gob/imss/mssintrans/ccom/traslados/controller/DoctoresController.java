@@ -200,8 +200,8 @@ public class DoctoresController {
 		response = siapService.buscarPorMat(matricula);
 		ResponseEntity<?> responseEntity;
 		
-		if(response.isError()) {
-			responseEntity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		if(response.getCodigo() == 500) {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}else {
 			responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
 		}
@@ -285,8 +285,8 @@ public class DoctoresController {
 		response = siapService.buscarSiapPorMat(matricula);
 		ResponseEntity<?> responseEntity;
 		
-		if(response.isError()) {
-			responseEntity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		if(response.getCodigo() == 500) {
+			responseEntity = new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}else {
 			responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
 		}
