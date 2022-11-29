@@ -259,26 +259,41 @@ public class TrasladoServiceImpl implements TrasladoService {
 		try {
 			busquedaTraslado = trasladoRepository.findByIdSolicitudAndIndActivoEquals(traslado.getIdSolicitud(), 1)
 					.orElseThrow(() -> new Exception("No se encontro el traslado"));
-			busquedaTraslado.setDesDiagnostico(traslado.getDesDiagnostico());
+			
+			//busquedaTraslado.setDesDiagnostico(traslado.getDesDiagnostico());
+		
+			busquedaTraslado.setIdTipoSolicitud(traslado.getIdTipoSolicitud());
+			busquedaTraslado.setIndSolicitudForanea(traslado.getIndSolicitudForanea());
+			busquedaTraslado.setIndOxigeno(traslado.getIndOxigeno());
+			busquedaTraslado.setIndIncubadora(traslado.getIndIncubadora());
+			busquedaTraslado.setIndCapsula(traslado.getIndCapsula());
+			busquedaTraslado.setDesTipoServicio(traslado.getDesTipoServicio());
+			busquedaTraslado.setDesPosturaPaciente(traslado.getDesPosturaPaciente());
 			busquedaTraslado.setCveOrigen(traslado.getCveOrigen());
 			busquedaTraslado.setDesAreaOrigen(traslado.getDesAreaOrigen());
 			busquedaTraslado.setNumCamaOrigen(traslado.getNumCamaOrigen());
 			busquedaTraslado.setCveDestino(traslado.getCveDestino());
 			busquedaTraslado.setDesAreaDestino(traslado.getDesAreaDestino());
 			busquedaTraslado.setNumCamaDestino(traslado.getNumCamaDestino());
-			busquedaTraslado.setDesEstatusSolicitud(traslado.getDesEstatusSolicitud());
-			busquedaTraslado.setDesmotivoCancelacion(traslado.getDesmotivoCancelacion());
-			busquedaTraslado.setNumMatriculaRecibe(traslado.getNumMatriculaRecibe());
-			busquedaTraslado.setNumMatriculaAutoriza(traslado.getNumMatriculaAutoriza());
-			busquedaTraslado.setFecActualizacion(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
-			busquedaTraslado.setCveMatricula(matricula);
-			busquedaTraslado.setDesMunicipio(traslado.getDesMunicipio());
+			busquedaTraslado.setCveCodPostal(traslado.getCveCodPostal());
 			busquedaTraslado.setDesEstado(traslado.getDesEstado());
 			busquedaTraslado.setDesCiudad(traslado.getDesCiudad());
-			busquedaTraslado.setCveCodPostal(traslado.getCveCodPostal());
+			busquedaTraslado.setDesMunicipio(traslado.getDesMunicipio());
+			busquedaTraslado.setDesColonia(traslado.getDesColonia());
+			busquedaTraslado.setDesCalle(traslado.getDesCalle());
+			busquedaTraslado.setNumExterior(traslado.getNumExterior());
+			busquedaTraslado.setNumInterior(traslado.getNumInterior());
+			busquedaTraslado.setDesReferencia(traslado.getDesReferencia());
+			busquedaTraslado.setNumTelDestino(traslado.getNumTelDestino());
+			busquedaTraslado.setNumMatriculaRecibe(traslado.getNumMatriculaRecibe());
+			busquedaTraslado.setNumFolioAceptacion(traslado.getNumFolioAceptacion());
+			busquedaTraslado.setNumMatriculaAutoriza(traslado.getNumMatriculaAutoriza());
 			busquedaTraslado.setDesFirma(traslado.getDesFirma());
-			busquedaTraslado.setIdTipoSolicitud(traslado.getIdTipoSolicitud());
-			busquedaTraslado.setIndSolicitudForanea(traslado.getIndSolicitudForanea());
+			busquedaTraslado.setDesEstatusSolicitud(traslado.getDesEstatusSolicitud());
+			busquedaTraslado.setDesmotivoCancelacion(traslado.getDesmotivoCancelacion());
+			busquedaTraslado.setFecActualizacion(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
+			busquedaTraslado.setCveMatricula(matricula);
+			
 			actualizadoTraslado = trasladoRepository.save(busquedaTraslado);
 			
 			// censo doctores
