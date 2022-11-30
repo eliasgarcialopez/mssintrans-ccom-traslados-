@@ -68,7 +68,7 @@ public class CenPasServiceImpl implements CenPasService {
 			respuesta.setDatos(response);
 			
 		} catch (Exception e) {
-			
+			log.error("Ha ocurrido un error al insertar el mantenimiento", e.getMessage());
 			respuesta.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			respuesta.setError(true);
 			respuesta.setMensaje(e.getMessage());
@@ -95,7 +95,7 @@ public class CenPasServiceImpl implements CenPasService {
 					cenPasEntity.getSabado(), cenPasEntity.getDomingo(), cenPasEntity.getCveMatricula(), idUnidadAdscripcion, cenPasEntity.getIdCenso());
 			
 		} catch (Exception e) {
-			 log.error("Ha ocurrido un error al actualizar el mantenimiento", e.getMessage());
+			log.error("Ha ocurrido un error al actualizar el censo ", e.getMessage());
 			respuesta.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			respuesta.setError(true);
 			respuesta.setMensaje(e.getMessage());
