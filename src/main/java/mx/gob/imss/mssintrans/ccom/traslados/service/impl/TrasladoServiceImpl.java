@@ -292,6 +292,8 @@ public class TrasladoServiceImpl implements TrasladoService {
 			busquedaTraslado.setDesEstatusSolicitud(traslado.getDesEstatusSolicitud());
 			busquedaTraslado.setDesmotivoCancelacion(traslado.getDesmotivoCancelacion());
 			busquedaTraslado.setFecActualizacion(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
+			busquedaTraslado.setFecTransmision(traslado.getFecTransmision());
+			busquedaTraslado.setTimTransmision(traslado.getTimTransmision());;
 			busquedaTraslado.setCveMatricula(matricula);
 			
 			actualizadoTraslado = trasladoRepository.save(busquedaTraslado);
