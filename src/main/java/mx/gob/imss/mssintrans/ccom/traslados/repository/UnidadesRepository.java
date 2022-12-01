@@ -47,8 +47,8 @@ public interface UnidadesRepository extends JpaRepository<UnidadesEntity, Intege
     UnidadesEntity findUnidadesAdscripcionById(@Param("idUnidadAdscripcion") Integer idUnidadAdscripcion);
 	
 	@Query(value= " SELECT UD.ID_UNIDAD_ADSCRIPCION FROM SINTRANSC_USUARIOS U INNER JOIN SINTRANSC_UNIDADES_ADSCRIPCION UD "
-		    + " ON U.ID_UNIDAD_ADSCRIPCION = UD.ID_UNIDAD_ADSCRIPCION WHERE U.DES_ESTATUS_USUARIO = 3 AND "
-		    + " U.IND_ACTIVO = 1 AND UD.IND_ACTIVO = 1 AND U.CVE_MATRICULA = ? " ,
+		    + " ON U.ID_UNIDAD_ADSCRIPCION = UD.ID_UNIDAD_ADSCRIPCION WHERE U.DES_ESTATUS_USUARIO = 3  "
+		    + " AND UD.IND_ACTIVO = 1 AND U.CVE_MATRICULA = ? " ,
 		nativeQuery = true)
 	Integer findUnidadCentraComByCveMatricula(String matricula);
 	

@@ -55,7 +55,7 @@ public class CenDocServiceImpl implements CenDocService {
 		
 		try {
 			
-			log.info("Creando Nuevo Médico");
+			log.info("Creando Nuevo Medico");
 			
 			CenDocEntity registro = cenDocRepository.consultaPorMat(cenDocEntity.getMatriculaDoctor());
 			
@@ -66,14 +66,14 @@ public class CenDocServiceImpl implements CenDocService {
 				response = CenDocMapper.INSTANCE.entityAJson(cenDocEntity);
 				respuesta.setCodigo(HttpStatus.OK.value());
 				respuesta.setError(false);
-				respuesta.setMensaje("El médico se guardo exitosamente");
+				respuesta.setMensaje("El medico se guardo exitosamente");
 				respuesta.setDatos(response);
 			
 			} else {
 				
 				respuesta.setCodigo(HttpStatus.BAD_REQUEST.value());
 				respuesta.setError(true);
-				respuesta.setMensaje("Matricula repetida, el médico ya existe");
+				respuesta.setMensaje("Matricula repetida, el medico ya existe");
 				
 			}
 			
@@ -104,7 +104,7 @@ public class CenDocServiceImpl implements CenDocService {
 				
 				respuesta.setCodigo(HttpStatus.OK.value());
 				respuesta.setError(false);
-				respuesta.setMensaje("El médico se actualizó exitosamente");
+				respuesta.setMensaje("El medico se actualizo exitosamente");
 			
 			} else {
 				
@@ -117,7 +117,7 @@ public class CenDocServiceImpl implements CenDocService {
 			
 			
 		} catch (Exception e) {
-			 log.error("Ha ocurrido un error al actualizar el médico", e.getMessage());
+			 log.error("Ha ocurrido un error al actualizar el medico", e.getMessage());
 			respuesta.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			respuesta.setError(true);
 			respuesta.setMensaje(e.getMessage());
@@ -140,14 +140,14 @@ public class CenDocServiceImpl implements CenDocService {
 			if(cenDocEntity==null) {
 				respuesta.setCodigo(HttpStatus.NOT_FOUND.value());
 				respuesta.setError(true);
-				respuesta.setMensaje("No se encontro el médico");
+				respuesta.setMensaje("No se encontro el medico");
 				return respuesta;
 			}
 			
 			response = CenDocMapper.INSTANCE.entityAJson(cenDocEntity);
 			respuesta.setCodigo(HttpStatus.OK.value());
 			respuesta.setError(false);
-			respuesta.setMensaje("Se encontro el médico");
+			respuesta.setMensaje("Se encontro el medico");
 			respuesta.setDatos(response);
 			
 		} catch (Exception e) {
@@ -171,7 +171,7 @@ public class CenDocServiceImpl implements CenDocService {
 			
 			respuesta.setCodigo(HttpStatus.OK.value());
 			respuesta.setError(false);
-			respuesta.setMensaje("Se elimino el médico");
+			respuesta.setMensaje("Se elimino el medico");
 			
 		} catch (Exception e) {
 			Log.error(e.getMessage());
