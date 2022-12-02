@@ -168,6 +168,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 				cenPasEntity.setDesNss(nuevoTraslado.getDesnsPaciente());
 				cenPasEntity.setNombre(nuevoTraslado.getDesNomPaciente());
 				cenPasEntity.setUnidadAdscripcion(unidadesRepository.findUnidadesAdscripcionById(idUnidadAdscripcion));
+				cenPasEntity.setDesEstatus("1");
 				cenPasEntity.setIndActivo(1);
 				cenPasEntity.setIndSistema(1);
 				cenPasEntity.setCveMatricula(matricula);
@@ -180,6 +181,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 				cenDoctorEntity.setMatriculaDoctor(nuevoTraslado.getNumMatriculaRecibe());
 				cenDoctorEntity.setFecAlta(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
 				cenDoctorEntity.setNombreDoctor(traslado.getDesNomDoctorRecibe());
+				cenDoctorEntity.setDesEstatus("1");
 				cenDoctorEntity.setIndActivo(1);
 				cenDoctorEntity.setIndSistema(1);
 				cenDoctorEntity.setCveMatricula(matricula);
