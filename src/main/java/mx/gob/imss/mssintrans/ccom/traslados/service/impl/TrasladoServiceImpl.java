@@ -162,10 +162,12 @@ public class TrasladoServiceImpl implements TrasladoService {
 			nuevoTraslado = trasladoRepository.saveAndFlush(trasladoEntity);
 			
 			// censo paciente
-			if (cenPasRepository.consultaPorNss(nuevoTraslado.getDesnsPaciente()) == null) {
+			Integer idUnidadAdscripcion =  unidadesRepository.findUnidadCentraComByCveMatricula(matricula);
+			if (cenPasRepository.consultaPorNss(nuevoTraslado.getDesnsPaciente()) == null && idUnidadAdscripcion != null) {
 				cenPasEntity.setFecAlta(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
 				cenPasEntity.setDesNss(nuevoTraslado.getDesnsPaciente());
 				cenPasEntity.setNombre(nuevoTraslado.getDesNomPaciente());
+				cenPasEntity.setUnidadAdscripcion(unidadesRepository.findUnidadesAdscripcionById(idUnidadAdscripcion));
 				cenPasEntity.setIndActivo(1);
 				cenPasEntity.setIndSistema(1);
 				cenPasEntity.setCveMatricula(matricula);
@@ -198,6 +200,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 
 		} catch (Exception e) {
 			log.debug("error {}", e.getMessage());
+			e.printStackTrace();
 			respuesta.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			respuesta.setError(true);
 			respuesta.setMensaje(e.getMessage());
