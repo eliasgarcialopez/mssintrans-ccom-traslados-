@@ -161,7 +161,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 			trasladoEntity.setCveMatricula(matricula);
 			nuevoTraslado = trasladoRepository.saveAndFlush(trasladoEntity);
 			
-			// censo paciente
+			/*/ censo paciente
 			Integer idUnidadAdscripcion =  unidadesRepository.findUnidadCentraComByCveMatricula(matricula);
 			if (cenPasRepository.consultaPorNss(nuevoTraslado.getDesnsPaciente()) == null && idUnidadAdscripcion != null) {
 				cenPasEntity.setFecAlta(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
@@ -183,7 +183,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 				cenDoctorEntity.setNombreDoctor(traslado.getDesNomDoctorRecibe());
 				cenDoctorEntity.setDesEstatus("1");
 				cenDoctorEntity.setIndActivo(1);
-				cenDoctorEntity.setIndSistema(1);
+				cenDoctorEntity.setIndSistema(1);	
 				cenDoctorEntity.setCveMatricula(matricula);
 				cenDocRepository.saveAndFlush(cenDoctorEntity);
 			}
@@ -194,11 +194,12 @@ public class TrasladoServiceImpl implements TrasladoService {
 				cenDoctorEntity.setMatriculaDoctor(nuevoTraslado.getNumMatriculaAutoriza());
 				cenDoctorEntity.setFecAlta(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
 				cenDoctorEntity.setNombreDoctor(traslado.getDesNomDoctorAutoriza());
+				cenPasEntity.setDesEstatus("1");
 				cenDoctorEntity.setIndActivo(1);
 				cenDoctorEntity.setIndSistema(1);
 				cenDoctorEntity.setCveMatricula(matricula);
 				cenDocRepository.saveAndFlush(cenDoctorEntity);
-			}
+			}*/
 
 		} catch (Exception e) {
 			log.debug("error {}", e.getMessage());
