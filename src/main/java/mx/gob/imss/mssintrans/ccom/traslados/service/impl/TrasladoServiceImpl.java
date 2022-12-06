@@ -194,7 +194,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 				cenDoctorEntity.setMatriculaDoctor(nuevoTraslado.getNumMatriculaAutoriza());
 				cenDoctorEntity.setFecAlta(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
 				cenDoctorEntity.setNombreDoctor(traslado.getDesNomDoctorAutoriza());
-				cenPasEntity.setDesEstatus("1");
+				cenDoctorEntity.setDesEstatus("1");
 				cenDoctorEntity.setIndActivo(1);
 				cenDoctorEntity.setIndSistema(1);
 				cenDoctorEntity.setCveMatricula(matricula);

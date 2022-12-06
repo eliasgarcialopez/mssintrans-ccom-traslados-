@@ -24,7 +24,6 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			+ "		IND_SABADO=?, "
 			+ "		IND_DOMINGO=?, "
 			+ "		CVE_MATRICULA=?, "
-			+ "		ID_UNIDAD_ADSCRIPCION=?, "
 			+ "		FEC_ACTUALIZACION = NOW() "
 			+ " "
 			+ "WHERE 	ID_CENSO=?"
@@ -39,7 +38,6 @@ public interface CenPasRepository extends JpaRepository<CenPasEntity, Integer> {
 			Integer sabado,
 			Integer domingo,
 			String cveMatricula,
-			Integer idUnidadAdscripcion,
 			Integer idCenso );
 	
 	@Query(value = ""

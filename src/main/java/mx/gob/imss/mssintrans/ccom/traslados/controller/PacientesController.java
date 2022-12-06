@@ -41,7 +41,8 @@ public class PacientesController {
 	public ResponseEntity<Respuesta<?>> crear(
 			@RequestParam String desNss,
 			@RequestParam String nombre,
-			@RequestParam(required=false) String desEstatus,
+			@RequestParam String desEstatus,
+			@RequestParam Integer idUnidad,
 			@RequestParam(required=false) Integer lunes,
 			@RequestParam(required=false) Integer martes,
 			@RequestParam(required=false) Integer miercoles,
@@ -73,6 +74,7 @@ public class PacientesController {
 		cenPasEntity.setDesNss(desNss);
 		cenPasEntity.setNombre(nombre);
 		cenPasEntity.setDesEstatus(desEstatus);
+		cenPasEntity.setUnidadAdscripcion(idUnidad);
 		cenPasEntity.setLunes(lunes);
 		cenPasEntity.setMartes(martes);
 		cenPasEntity.setMiercoles(miercoles);

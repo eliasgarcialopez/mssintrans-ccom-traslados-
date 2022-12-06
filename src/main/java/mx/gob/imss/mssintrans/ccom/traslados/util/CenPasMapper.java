@@ -14,7 +14,5 @@ public interface CenPasMapper {
 	CenPasEntity JsonAEntity(CenPasResponse cenPasResponse);
 	
 	CenPasResponse entityAJson(CenPasEntity cenDocEntity);
-	
-	
 
 }

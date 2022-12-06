@@ -74,7 +74,7 @@ public class CenPasEntity {
 	@Column(name = "IND_SISTEMA", unique = false, nullable = true)
 	private Integer indSistema;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ID_UNIDAD_ADSCRIPCION", nullable = false)
-    private UnidadesEntity unidadAdscripcion;
+	//@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @Column(name = "ID_UNIDAD_ADSCRIPCION", nullable = false)
+    private Integer unidadAdscripcion;
 }
