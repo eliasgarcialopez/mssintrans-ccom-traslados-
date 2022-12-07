@@ -68,7 +68,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 		
 		try {
 			consultaGeneral = trasladosRepository.consultaGeneralOOAD(pageable, usuario.getIDOOAD());
-			if (usuario.getRol().equals("Administrador") || usuario.getRol().equals("Normativo") || usuario.getIDOOAD() == 9 || usuario.getIDOOAD() == 39) {
+			if (usuario.getRol().equals("Administrador") || usuario.getRol().equals("Normativo")) {
 				consultaGeneral = trasladosRepository.consultaGeneral(pageable);
 				
 			} else {

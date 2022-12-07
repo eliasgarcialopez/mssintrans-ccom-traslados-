@@ -189,7 +189,7 @@ public class CenDocServiceImpl implements CenDocService {
 		final Page<CenDocEntity> result;
 		List<CensoDoctoresResponse> content = null;
 		try {
-				result = datosUsuarios.rol.equals("Administrador") || datosUsuarios.rol.equals("Normativo") || datosUsuarios.IDOOAD == 9 || datosUsuarios.IDOOAD  == 39 ?
+				result = datosUsuarios.rol.equals("Administrador") || datosUsuarios.rol.equals("Normativo") ?
 						cenDocRepository.consultaGeneral(pageable) : cenDocRepository.consultaGeneralPorOoad(datosUsuarios.IDOOAD, pageable);
 				
 				if (!result.isEmpty()) {

@@ -31,9 +31,9 @@ public class UnidadesServiceImpl implements UnidadesService{
 	Respuesta<T> respuesta = new Respuesta<>();
 	List<UnidadesEntity> unidadesEntity = new ArrayList<>();
 	try {
-		if(usuario.rol.equals("Administrador") || usuario.rol.equals("Normativo") || usuario.IDOOAD == 9 || usuario.IDOOAD  == 39 ){
+		if (usuario.rol.equals("Administrador") || usuario.rol.equals("Normativo")) {
 			unidadesEntity=unidadesRepository.consultaGeneral();
-		}else{
+		} else {
 			unidadesEntity=unidadesRepository.consultaPorOoad(usuario.getIDOOAD());
 		}
 		if (unidadesEntity.isEmpty()) {
