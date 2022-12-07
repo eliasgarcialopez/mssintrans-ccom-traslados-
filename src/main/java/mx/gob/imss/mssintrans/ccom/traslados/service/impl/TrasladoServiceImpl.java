@@ -304,7 +304,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 			
 			actualizadoTraslado = trasladoRepository.save(busquedaTraslado);
 			
-			// censo doctores
+			/* censo doctores
 			if (cenDocRepository.consultaPorMat(busquedaTraslado.getNumMatriculaRecibe()) == null) {
 				cenDoctorEntity.setMatriculaDoctor(busquedaTraslado.getNumMatriculaRecibe());
 				cenDoctorEntity.setFecAlta(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
@@ -325,7 +325,7 @@ public class TrasladoServiceImpl implements TrasladoService {
 				cenDoctorEntity.setIndSistema(1);
 				cenDoctorEntity.setCveMatricula(matricula);
 				cenDocRepository.saveAndFlush(cenDoctorEntity);
-			}
+			}*/
 		} catch (Exception e) {
 			log.debug("error {}", e.getMessage());
 			respuesta.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.value());

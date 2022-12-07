@@ -95,9 +95,9 @@ public class CenDocServiceImpl implements CenDocService {
 		
 		try {
 			
-			CenDocEntity registro = cenDocRepository.consultaPorMat(cenDocEntity.getCveMatricula());
+			//CenDocEntity registro = cenDocRepository.consultaPorMat(cenDocEntity.getCveMatricula());
 			
-			if(registro==null) {
+			//if(registro==null) {
 				
 				cenDocRepository.actualizar(cenDocEntity.getIdUnidad(), cenDocEntity.getDesEstatus(),
 						cenDocEntity.getCveMatricula(), cenDocEntity.getIdCenso());
@@ -106,13 +106,13 @@ public class CenDocServiceImpl implements CenDocService {
 				respuesta.setError(false);
 				respuesta.setMensaje("El medico se actualizo exitosamente");
 			
-			} else {
+			/*} else {
 				
 				respuesta.setCodigo(HttpStatus.BAD_REQUEST.value());
 				respuesta.setError(true);
 				respuesta.setMensaje("Matricula repetida, el medico ya existe");
 				
-			}
+			}*/
 			
 			
 			

@@ -128,8 +128,11 @@ public class CenPasServiceImpl implements CenPasService {
 				return respuesta;
 			}
 			
-			
 			response = CenPasMapper.INSTANCE.entityAJson(cenPasEntity);
+			
+			if (cenPasEntity.getUnidadAdscripcion() != null) {
+			    response.setStrUnidad(unidadesRepository.getById(idCenso).getNomUnidadAdscripcion());
+			}
 			
 			respuesta.setCodigo(HttpStatus.OK.value());
 			respuesta.setError(false);
@@ -193,6 +196,9 @@ public class CenPasServiceImpl implements CenPasService {
 			
 			
 			response = CenPasMapper.INSTANCE.entityAJson(cenPasEntity);
+			if (cenPasEntity.getUnidadAdscripcion() != null) {
+			    response.setStrUnidad(unidadesRepository.getById(cenPasEntity.getUnidadAdscripcion()).getNomUnidadAdscripcion());
+			}
 			
 			respuesta.setCodigo(HttpStatus.OK.value());
 			respuesta.setError(true);
