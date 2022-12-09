@@ -74,10 +74,10 @@ public class SiapServiceImpl implements SiapService {
 		Respuesta<Empleado> respuesta = new Respuesta<>();
 		Empleado empleado = consultaMatriculaService.consultaMatricula(matricula);
 		if (empleado.getDel() == 35 || empleado.getDel() == 36) {
-			empleado.setDel(40);
+			empleado.setDel(39);
 		}
 		if (empleado.getDel() == 37 || empleado.getDel() == 38) {
-			empleado.setDel(39);
+			empleado.setDel(40);
 		}
 		
 		log.info("Resultado: " + empleado);
