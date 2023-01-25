@@ -111,7 +111,7 @@ public class TrasladoEntity {
 	@Column(name = "NOM_FAMILIAR", unique = false, nullable = true)
 	private String nomFamiliar;
 	
-	@Column(name = "TEL_FAMILIAR", unique = false, nullable = true)
+	@Column(name = "NUM_TEL_FAMILIAR", unique = false, nullable = true)
 	private String telFamiliar;
 	
 	@Column(name = "CVE_MATRICULA_DOCTOR_RECIBE", unique = false, nullable = true)
